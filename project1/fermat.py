@@ -9,12 +9,12 @@ def prime_test(N: int, k: int) -> tuple[str, str]:
 
 # You will need to implement this function and change the return value.
 def mod_exp(x: int, y: int, N: int) -> int:
-    return x ** y % N
+    return 0
 
 
 # You will need to implement this function and change the return value.
 def fprobability(k: int) -> float:
-    1 - (1 / 2 ** k)
+    return 0
 
 
 # You will need to implement this function and change the return value.
@@ -29,12 +29,7 @@ def mprobability(k: int) -> float:
 # random.randint(low, hi) which gives a random integer between low and
 # hi, inclusive.
 def fermat(N: int, k: int) -> str:
-    ak = [random.randint(2, 3) for _ in range(k)]
-    for a in ak:
-        if mod_exp(a, N - 1, N) != 1:
-            return "composite"
-        
-    return "prime"
+    return "???"
 
 
 # You will need to implement this function and change the return value, which should be
