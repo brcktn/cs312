@@ -20,12 +20,12 @@ def mod_exp(x: int, y: int, N: int) -> int:
 
 # You will need to implement this function and change the return value.
 def fprobability(k: int) -> float:
-    1 - (1 / 2 ** k)
+    return 1 - (1 / 2 ** k)
 
 
 # You will need to implement this function and change the return value.
 def mprobability(k: int) -> float:
-    return 0
+    return 1 - (1 / 4 ** k)
 
 
 # You will need to implement this function and change the return value, which should be
