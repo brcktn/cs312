@@ -49,7 +49,30 @@ def fermat(N: int, k: int) -> str:
 # random.randint(low, hi) which gives a random integer between low and
 # hi, inclusive.
 def miller_rabin(N: int, k: int) -> str:
-    return "???"
+    def miller_rabin_is_prime(n, a):
+        # write n - 1 as 2^t * u
+        t = 0
+        u = n - 1
+        while u % 2 == 0:
+            t += 1
+            u //= 2
+        
+        if mod_exp(a, u, n) in (1, n - 1):
+            return True
+        
+        for i in range(1, t + 1):
+            if mod_exp(a, 2 ** i * u, n) == n - 1:
+                return True
+    
+        return False
+
+
+
+    a = [random.randint(2, N - 2) for _ in range(k)]
+    for i in a:
+        if not miller_rabin_is_prime(N, i):
+            return 'composite'
+    return 'prime'
 
 
 def main(number: int, k: int):
