@@ -20,12 +20,12 @@ def mod_exp(x: int, y: int, N: int) -> int:
 
 # You will need to implement this function and change the return value.
 def fprobability(k: int) -> float:
-    return 1 - (1 / 2 ** k)
+    return 1 - (1 / 2**k)
 
 
 # You will need to implement this function and change the return value.
 def mprobability(k: int) -> float:
-    return 1 - (1 / 4 ** k)
+    return 1 - (1 / 4**k)
 
 
 # You will need to implement this function and change the return value, which should be
@@ -38,8 +38,8 @@ def fermat(N: int, k: int) -> str:
     a = [random.randint(2, N - 1) for _ in range(k)]
     for i in a:
         if mod_exp(i, N - 1, N) != 1:
-            return 'composite'
-    return 'prime'
+            return "composite"
+    return "prime"
 
 
 # You will need to implement this function and change the return value, which should be
@@ -56,23 +56,21 @@ def miller_rabin(N: int, k: int) -> str:
         while u % 2 == 0:
             t += 1
             u //= 2
-        
+
         if mod_exp(a, u, n) in (1, n - 1):
             return True
-        
+
         for i in range(1, t + 1):
-            if mod_exp(a, 2 ** i * u, n) == n - 1:
+            if mod_exp(a, 2**i * u, n) == n - 1:
                 return True
-    
+
         return False
-
-
 
     a = [random.randint(2, N - 2) for _ in range(k)]
     for i in a:
         if not miller_rabin_is_prime(N, i):
-            return 'composite'
-    return 'prime'
+            return "composite"
+    return "prime"
 
 
 def main(number: int, k: int):
@@ -80,14 +78,14 @@ def main(number: int, k: int):
     fermat_prob = fprobability(k)
     mr_prob = mprobability(k)
 
-    print(f'Is {number} prime?')
-    print(f'Fermat: {fermat_call} (prob={fermat_prob})')
-    print(f'Miller-Rabin: {miller_rabin_call} (prob={mr_prob})')
+    print(f"Is {number} prime?")
+    print(f"Fermat: {fermat_call} (prob={fermat_prob})")
+    print(f"Miller-Rabin: {miller_rabin_call} (prob={mr_prob})")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument('number', type=int)
-    parser.add_argument('k', type=int)
+    parser.add_argument("number", type=int)
+    parser.add_argument("k", type=int)
     args = parser.parse_args()
     main(args.number, args.k)

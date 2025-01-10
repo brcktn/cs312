@@ -14,7 +14,33 @@ sys.setrecursionlimit(4000)
 # When trying to find a relatively prime e for (p-1) * (q-1)
 # use this list of 25 primes
 # If none of these work, throw an exception (and let the instructors know!)
-primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97]
+primes = [
+    2,
+    3,
+    5,
+    7,
+    11,
+    13,
+    17,
+    19,
+    23,
+    29,
+    31,
+    37,
+    41,
+    43,
+    47,
+    53,
+    59,
+    61,
+    67,
+    71,
+    73,
+    79,
+    83,
+    89,
+    97,
+]
 
 
 # Implement this function
@@ -27,7 +53,14 @@ def ext_euclid(a: int, b: int) -> tuple[int, int, int]:
 
     Note: a must be greater than b
     """
-    return 0, 0, 0
+    if b == 0:
+        return 1, 0, a
+    x1, y1, d = ext_euclid(b, a % b)
+    x = y1
+    y = x1 - (a // b) * y1
+
+    return x, y, d
+
 
 
 # Implement this function
@@ -37,7 +70,10 @@ def generate_large_prime(bits=512) -> int:
     Use random.getrandbits(bits) to generate a random number of the
      specified bit length.
     """
-    return 5  # Guaranteed random prime number obtained through fair dice roll
+    potential_prime = random.getrandbits(bits)
+    while miller_rabin(potential_prime, 20) != "prime":
+        potential_prime = random.getrandbits(bits)
+    return potential_prime
 
 
 # Implement this function
@@ -48,4 +84,24 @@ def generate_key_pairs(bits: int) -> tuple[int, int, int]:
     - N must be the product of two random prime numbers p and q
     - e and d must be multiplicative inverses mod (p-1)(q-1)
     """
-    return 0, 0, 0
+    p = generate_large_prime(bits)
+    q = generate_large_prime(bits)
+    
+    while p == q:
+        q = generate_large_prime(bits)
+   
+    N = p * q
+
+    phi = (p - 1) * (q - 1)
+
+    e = primes[random.randint(0, 24)]
+    while True:
+        x, y, d = ext_euclid(e, phi)
+        if d == 1:
+            break
+        e = primes[random.randint(0, 24)]
+
+    d, _, _ = ext_euclid(e, phi)
+    d = d % phi
+
+    return N, e, d
