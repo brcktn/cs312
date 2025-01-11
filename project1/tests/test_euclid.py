@@ -1,7 +1,7 @@
 import random
 from byu_pytest_utils import max_score
-from rsa import generate_key_pairs
-from fermat import mod_exp
+from project1.rsa import generate_key_pairs
+from project1.fermat import mod_exp
 
 
 @max_score(20)

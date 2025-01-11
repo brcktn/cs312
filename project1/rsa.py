@@ -2,7 +2,7 @@ import random
 import sys
 
 # This may come in handy...
-from fermat import miller_rabin
+from project1.fermat import miller_rabin
 
 # If you use a recursive implementation of `mod_exp` or extended-euclid,
 # you recurse once for every bit in the number.

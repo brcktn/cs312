@@ -1,7 +1,7 @@
 import pytest
 from byu_pytest_utils import max_score
 
-from fermat import mod_exp, fermat, miller_rabin
+from project1.fermat import mod_exp, fermat, miller_rabin
 
 mod_exp_args = [
     (2, 10, 17, 4),
