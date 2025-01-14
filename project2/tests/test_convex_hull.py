@@ -2,8 +2,8 @@ from byu_pytest_utils import max_score
 
 from test_utils import is_convex_hull
 
-from convex_hull import compute_hull
-from generate import generate_random_points
+from project2.convex_hull import compute_hull
+from project2.generate import generate_random_points
 
 
 @max_score(5)
