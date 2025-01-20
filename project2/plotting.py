@@ -2,8 +2,8 @@ import matplotlib.pyplot as plt
 
 
 def plot_points(points: list[tuple[float, float]], **kwargs):
-    if 'c' not in kwargs:
-        kwargs['c'] = 'k'
+    if "c" not in kwargs:
+        kwargs["c"] = "k"
 
     xx, yy = zip(*points)
     plt.scatter(xx, yy, **kwargs)
@@ -23,11 +23,7 @@ def draw_line(p1: tuple[float, float], p2: tuple[float, float], **kwargs):
 
 
 def circle_point(point: tuple[float, float], **kwargs):
-    for k, v in {
-        's': 80,
-        'facecolors': 'none',
-        'edgecolors': 'r'
-    }.items():
+    for k, v in {"s": 80, "facecolors": "none", "edgecolors": "r"}.items():
         if k not in kwargs:
             kwargs[k] = v
     plt.scatter(point[0], point[1], **kwargs)
