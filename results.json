@@ -13,13 +13,6 @@
             "name": "test_funcs.py::test_cross_product",
             "output": "\n",
             "visibility": "visible"
-        },
-        {
-            "score": 0,
-            "max_score": 0,
-            "name": "test_funcs.py::test_dot_product",
-            "output": "\n",
-            "visibility": "visible"
         }
     ]
 }

@@ -12,16 +12,16 @@ def is_ccw(
     a: tuple[float, float], b: tuple[float, float], c: tuple[float, float]
 ) -> bool:
     """Return True if the points a, b, and c are in counter-clockwise
-    order or if they are collinear at 180 degrees and False otherwise
+    order and False otherwise
 
     Raises a ValueError if any two of the points are the same,
-    or if the points are collinear at 0 degrees"""
+    or if the points are collinear"""
     if a == b or b == c or a == c:
         raise ValueError("Two points are the same")
     ba = (a[0] - b[0], a[1] - b[1])
     bc = (c[0] - b[0], c[1] - b[1])
-    if (cross := cross_product(ba, bc)) == 0 and dot_product(ba, bc) > 0:
-        raise ValueError("Angle between points is 0 degrees")
+    if (cross := cross_product(ba, bc)) == 0:
+        raise ValueError("Points are collinear")
     return cross <= 0
 
 
@@ -30,6 +30,3 @@ def cross_product(a: tuple[float, float], b: tuple[float, float]) -> float:
     return a[0] * b[1] - a[1] * b[0]
 
 
-def dot_product(a: tuple[float, float], b: tuple[float, float]) -> float:
-    """Return the dot product of the vectors a and b"""
-    return a[0] * b[0] + a[1] * b[1]
