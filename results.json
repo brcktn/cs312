@@ -13,6 +13,34 @@
             "name": "test_funcs.py::test_cross_product",
             "output": "\n",
             "visibility": "visible"
+        },
+        {
+            "score": 0,
+            "max_score": 0,
+            "name": "test_funcs.py::test_convex_hull_2_points",
+            "output": "\n",
+            "visibility": "visible"
+        },
+        {
+            "score": 0,
+            "max_score": 0,
+            "name": "test_funcs.py::test_convex_hull_3_points",
+            "output": "\n",
+            "visibility": "visible"
+        },
+        {
+            "score": 0,
+            "max_score": 0,
+            "name": "test_funcs.py::test_split_points",
+            "output": "\n",
+            "visibility": "visible"
+        },
+        {
+            "score": 0,
+            "max_score": 0,
+            "name": "test_funcs.py::test_keep_between_indecies",
+            "output": "\n",
+            "visibility": "visible"
         }
     ]
 }
