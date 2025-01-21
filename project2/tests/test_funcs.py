@@ -1,5 +1,3 @@
-import pytest
-
 from project2.convex_hull import (
     is_ccw,
     cross_product,
@@ -8,6 +6,8 @@ from project2.convex_hull import (
     keep_between_indecies,
     combine_hulls,
 )
+from project2.generate import generate_random_points
+from test_utils import is_convex_hull
 
 
 def test_is_ccw():
@@ -60,6 +60,7 @@ def test_keep_between_indecies():
         (1, -1),
         (1, 0),
     ]
+    assert keep_between_indecies(points, (0, 0)) == [(1, 0)]
 
 
 def test_combine_hulls():
@@ -67,3 +68,9 @@ def test_combine_hulls():
     right = [(1, 1), (1, -1)]
 
     assert sorted(combine_hulls(left, right)) == [(-1, -1), (-1, 1), (1, -1), (1, 1)]
+
+
+def test_guassian_distribution_medium():
+    points = generate_random_points("uniform", 34, 312)
+    candidate_hull = compute_hull(points)
+    assert is_convex_hull(candidate_hull, points)

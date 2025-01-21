@@ -81,7 +81,7 @@ def keep_between_indecies(
     """Return the subset of points that are between the provided indecies"""
 
     start, end = indecies
-    if start < end:
+    if start <= end:
         return points[start : end + 1]
     else:
         return points[start:] + points[: end + 1]

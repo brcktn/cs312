@@ -8,9 +8,23 @@
             "visibility": "visible"
         },
         {
+            "score": 15,
+            "max_score": 15,
+            "name": "test_convex_hull.py::test_uniform_distribution_large",
+            "output": "\n",
+            "visibility": "visible"
+        },
+        {
             "score": 5,
             "max_score": 5,
             "name": "test_convex_hull.py::test_guassian_distribution_small",
+            "output": "\n",
+            "visibility": "visible"
+        },
+        {
+            "score": 15,
+            "max_score": 15,
+            "name": "test_convex_hull.py::test_guassian_distribution_large",
             "output": "\n",
             "visibility": "visible"
         },
@@ -65,16 +79,9 @@
         },
         {
             "score": 0,
-            "max_score": 15,
-            "name": "test_convex_hull.py::test_uniform_distribution_large",
-            "output": "\n@max_score(15)\n    def test_uniform_distribution_large():\n        points = generate_random_points(\"uniform\", 20000, 312)\n        candidate_hull = compute_hull(points)\n>       assert is_convex_hull(candidate_hull, points)\nE       assert False\nE        +  where False = is_convex_hull([(-0.0033399223182026816, 0.8394479928480607), (-0.004179884258808331, 0.9520874971211242), (-0.007285344329577059, 0....54, 0.9404891133997964), (-0.008810049025629096, 0.8100762005954671), (-0.008815391244538118, 0.6378039389673169), ...], [(-0.9998771707044247, 0.46368126410742905), (-0.9996779138632872, 0.14549084483544683), (-0.9995967984647907, -0.1303...37268, 0.42718852796427265), (-0.9992763529880613, 0.4539219953443909), (-0.9991474926628798, 0.8750622116711404), ...])\n\nproject2/tests/test_convex_hull.py:20: AssertionError",
-            "visibility": "visible"
-        },
-        {
-            "score": 0,
-            "max_score": 15,
-            "name": "test_convex_hull.py::test_guassian_distribution_large",
-            "output": "\n@max_score(15)\n    def test_guassian_distribution_large():\n        points = generate_random_points(\"guassian\", 20000, 312)\n        candidate_hull = compute_hull(points)\n>       assert is_convex_hull(candidate_hull, points)\nE       assert False\nE        +  where False = is_convex_hull([(-0.0006285552528929214, 0.9637755927273548), (-0.0008853384332122447, 0.05670649111759201), (-0.0008671059463846444,... 0.11746530328393912), (-0.0008997342477087121, 0.3813588439294377), (-0.0011426235141600153, 0.4484959678940357), ...], [(-1.477808273741818, 0.32410173272056114), (-1.4615255853469846, -0.4955728817242796), (-1.4354073304152637, -0.28911..., -0.033162623752483564), (-1.4076863618210125, 0.12831828002886358), (-1.3771791387777252, 0.006770418681791123), ...])\n\nproject2/tests/test_convex_hull.py:34: AssertionError",
+            "max_score": 0,
+            "name": "test_funcs.py::test_guassian_distribution_medium",
+            "output": "\n",
             "visibility": "visible"
         }
     ]
