@@ -59,12 +59,11 @@ def ext_euclid(a: int, b: int) -> tuple[int, int, int]:
     """
     if b == 0:
         return 1, 0, a
-    x1, y1, d = ext_euclid(b, a % b) # max depth O(n)
+    x1, y1, d = ext_euclid(b, a % b)  # max depth O(n)
     x = y1
-    y = x1 - (a // b) * y1 # O(n ** 2)
+    y = x1 - (a // b) * y1  # O(n ** 2)
 
     return x, y, d
-
 
 
 # Implement this function
@@ -78,9 +77,13 @@ def generate_large_prime(bits=512) -> int:
     Time complexity: O(n ** 5)
     Space complexity: O(n)
     """
-    potential_prime = random.getrandbits(bits) # proabability of prime is 1 / (n * ln(2))
-    while miller_rabin(potential_prime, 20) != "prime": # O(n ** 4)
-        potential_prime = random.getrandbits(bits) # average number of iterations is O(n)
+    potential_prime = random.getrandbits(
+        bits
+    )  # proabability of prime is 1 / (n * ln(2))
+    while miller_rabin(potential_prime, 20) != "prime":  # O(n ** 4)
+        potential_prime = random.getrandbits(
+            bits
+        )  # average number of iterations is O(n)
     return potential_prime
 
 
@@ -94,10 +97,10 @@ def generate_key_pairs(bits: int) -> tuple[int, int, int]:
     """
     p = generate_large_prime(bits)
     q = generate_large_prime(bits)
-    
+
     while p == q:
         q = generate_large_prime(bits)
-   
+
     N = p * q
 
     phi = (p - 1) * (q - 1)

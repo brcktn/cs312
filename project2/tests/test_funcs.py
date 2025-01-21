@@ -70,7 +70,7 @@ def test_combine_hulls():
     assert sorted(combine_hulls(left, right)) == [(-1, -1), (-1, 1), (1, -1), (1, 1)]
 
 
-def test_guassian_distribution_medium():
-    points = generate_random_points("uniform", 34, 312)
+def test_guassian_distribution_xl():
+    points = generate_random_points("guassian", 100000, 312)
     candidate_hull = compute_hull(points)
     assert is_convex_hull(candidate_hull, points)

@@ -34,12 +34,8 @@ def combine_hulls(
 ) -> list[tuple[float, float]]:
     """Return the convex hull of the two provided hulls
     Assumes that both hulls are sorted in ccw order"""
-    rigthmost_left_index = max(enumerate(left), key=lambda x: x[1][0])[
-        0
-    ]  # index of rightmost point in left hull
-    leftmost_right_index = min(enumerate(right), key=lambda x: x[1][0])[
-        0
-    ]  # index of leftmost point in right hull
+    rigthmost_left_index = max(enumerate(left), key=lambda x: x[1][0])[0]
+    leftmost_right_index = min(enumerate(right), key=lambda x: x[1][0])[0]
 
     i = rigthmost_left_index
     j = leftmost_right_index
@@ -93,7 +89,7 @@ def is_ccw(
     """Return True if the points a, b, and c are in counter-clockwise
     order and False otherwise
 
-    Raises a ValueError if any two of the points are the same,
+    Also returns False if any two of the points are the same,
     or if the points are collinear"""
     if a == b or b == c or a == c:
         return False
@@ -103,5 +99,6 @@ def is_ccw(
 
 
 def cross_product(a: tuple[float, float], b: tuple[float, float]) -> float:
-    """Return the cross product of the vectors a and b"""
+    """Return the magnitiude of the cross product
+    of the planar vectors a and b"""
     return a[0] * b[1] - a[1] * b[0]

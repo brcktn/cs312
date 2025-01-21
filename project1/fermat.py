@@ -10,8 +10,8 @@ def prime_test(N: int, k: int) -> tuple[str, str]:
 def mod_exp(x: int, y: int, N: int) -> int:
     """
     Returns (x ** y) % N
-    
-    Total complexity for n bits: 
+
+    Total complexity for n bits:
     Time complexity: O(n ** 3)
     Space complexity: O(n)
     """
@@ -49,8 +49,8 @@ def fermat(N: int, k: int) -> str:
     Space complexity: O(k * n)
     """
     a = [random.randint(2, N - 1) for _ in range(k)]
-    for i in a: # k iterations
-        if mod_exp(i, N - 1, N) != 1: #mod_exp: O(n ** 3)
+    for i in a:  # k iterations
+        if mod_exp(i, N - 1, N) != 1:  # mod_exp: O(n ** 3)
             return "composite"
     return "prime"
 
@@ -69,6 +69,7 @@ def miller_rabin(N: int, k: int) -> str:
     Time complexity: O(k * n ** 4)
     Space complexity: O(k * n)
     """
+
     def miller_rabin_is_prime(n, a):
         """
         Returns a single test for primality of n using a
@@ -87,14 +88,14 @@ def miller_rabin(N: int, k: int) -> str:
         if mod_exp(a, u, n) in (1, n - 1):
             return True
 
-        for i in range(1, t + 1): # t iterations: O(n)
-            if mod_exp(a, 2**i * u, n) == n - 1: #mod_exp: O(n ** 3)
+        for i in range(1, t + 1):  # t iterations: O(n)
+            if mod_exp(a, 2**i * u, n) == n - 1:  # mod_exp: O(n ** 3)
                 return True
 
         return False
 
     a = [random.randint(2, N - 2) for _ in range(k)]
-    for i in a: # k iterations
+    for i in a:  # k iterations
         if not miller_rabin_is_prime(N, i):
             return "composite"
     return "prime"
