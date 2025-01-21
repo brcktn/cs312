@@ -4,6 +4,16 @@
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{threeparttable}
+\usepackage[top=1in, bottom=1in, left=1in, right=1in]{geometry} % Adjust margins
+
+% Packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{threeparttable}
 
 % Title
 \title{CS312 Project 1 Report}
@@ -14,42 +24,80 @@
 
 \maketitle
 
-\tableofcontents
-\newpage
+\section{Algorithm Analysis}
 
+\begin{table}[h!]
+\centering
+\begin{threeparttable}
+\begin{tabular}{@{}lcc@{}}
+\toprule
+\textbf{Algorithm}                  & \textbf{Time Complexity}   & \textbf{Space Complexity} \\ \midrule
+\texttt{mod\_exp()}                 & $O(n^{3})$                 & $O(n)$              \\
+\texttt{fermat()}                   & $O(kn^{3})$                & $O(kn)$                    \\
+\texttt{miller\_rabin()}            & $O(kn^{4})$                & $O(kn)$                     \\
+\texttt{extended\_euclid()}         & $O(n^{3})$                 & $O(n)$                      \\
+\texttt{generate\_random\_prime()}\tnote{*}   
+                                    & $O(n^{5})$                 & $O(n)$                      \\
+\texttt{rsa\_generate\_keypair()}\tnote{*} 
+                                    & $O(n^{5})$                 & $O(n)$                      \\ \bottomrule
+\end{tabular}
+\begin{tablenotes}
+\item[*] Using Miller-Rabin primality test.
+\end{tablenotes}
+\end{threeparttable}
+\caption{Time and Space Complexity of Algorithms for $n$ bits and $k$ iterations}
+\label{tab:complexities}
+\end{table}
+
+\section{Correctness Probability of Primality Tests}
+
+\subsection{Fermat Primality Test}
+For Fermat's primality test, at most $\frac{n}{2}$ integers less than $n$ give a false positive, so given $k$ random integers, assuming that $k$ is significantly smaller than $n$, the probability that all are false positives is at most $\frac{1}{k^{2}}$.
+
+\subsection{Miller-Rabin Primality Test}
+For Miller-Rabin's primality test, at most $\frac{n}{4}$ integers less than $n$ give a false positive, so given $k$ random integers, assuming that $k$ is significantly smaller than $n$, the probability that all are false positives is at most $\frac{1}{k^{4}}$. 
+
+\end{document}
+% Title
+\title{CS312 Project 1 Report}
+\author{Brock Gregersen}
+\date{\today}
+
+\begin{document}
+
+\maketitle
 
 \section{Algorithm Analysis}
 
-\subsection{mod\_exp()}
-
-\subsubsection{Time Complexity}
-$ \text{mod\_exp}(x,y,n) \in O(\log{n}) $
-
-\subsubsection{Space Complexity}
-$ \text{mod\_exp}(x,y,n) \in O(\log{n}) $
-
-\subsection{fermat()}
-
-\subsubsection{Time Complexity}
-$ \text{fermat}(n,k) \in O(k\log{n})$
-
-\subsubsection{Space Complexity}
-$ \text{fermat}(n,k) \in O(k)$
-
-\subsection{miller\_rabin()}
-
-\subsubsection{Time Complexity}
-
-\subsubsection{Space Complexity}
+\begin{table}[h!]
+\centering
+\begin{threeparttable}
+\begin{tabular}{@{}lcc@{}}
+\toprule
+\textbf{Algorithm}                  & \textbf{Time Complexity}   & \textbf{Space Complexity} \\ \midrule
+\texttt{mod\_exp()}                 & $O(n^{3})$                 & $O(n)$              \\
+\texttt{fermat()}                   & $O(kn^{3})$                & $O(kn)$                    \\
+\texttt{miller\_rabin()}            & $O(kn^{4})$                & $O(kn)$                     \\
+\texttt{extended\_euclid()}         & $O(n^{3})$                 & $O(n)$                      \\
+\texttt{generate\_random\_prime()}\tnote{*}   
+                                    & $O(n^{5})$                 & $O(n)$                      \\
+\texttt{rsa\_generate\_keypair()}\tnote{*} 
+                                    & $O(n^{5})$                 & $O(n)$                      \\ \bottomrule
+\end{tabular}
+\begin{tablenotes}
+\item[*] Using Miller-Rabin primality test.
+\end{tablenotes}
+\end{threeparttable}
+\caption{Time and Space Complexity of Algorithms for $n$ bits and $k$ iterations}
+\label{tab:complexities}
+\end{table}
 
 \section{Correctness Probability of Primality Tests}
-Discuss the equation you used to compute the probability of correctness for both the Fermat and Miller-Rabin implementations.
 
 \subsection{Fermat Primality Test}
-Provide the formula for the probability of correctness and explain why it works.
+For Fermat's primality test, at most $\frac{n}{2}$ integers less than $n$ give a false positive, so given $k$ random integers, assuming that $k$ is significantly smaller than $n$, the probability that all are false positives is at most $\frac{1}{k^{2}}$.
 
 \subsection{Miller-Rabin Primality Test}
-Provide the formula for the probability of correctness and explain the significance of each term.
-
+For Miller-Rabin's primality test, at most $\frac{n}{4}$ integers less than $n$ give a false positive, so given $k$ random integers, assuming that $k$ is significantly smaller than $n$, the probability that all are false positives is at most $\frac{1}{k^{4}}$. 
 
 \end{document}

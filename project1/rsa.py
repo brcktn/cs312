@@ -52,12 +52,16 @@ def ext_euclid(a: int, b: int) -> tuple[int, int, int]:
     - ax + by = d
 
     Note: a must be greater than b
+
+    Total complexity for n bits:
+    Time complexity: O(n ** 3)
+    Space complexity: O(n)
     """
     if b == 0:
         return 1, 0, a
-    x1, y1, d = ext_euclid(b, a % b)
+    x1, y1, d = ext_euclid(b, a % b) # max depth O(n)
     x = y1
-    y = x1 - (a // b) * y1
+    y = x1 - (a // b) * y1 # O(n ** 2)
 
     return x, y, d
 
@@ -69,10 +73,14 @@ def generate_large_prime(bits=512) -> int:
     Generate a random prime number with the specified bit length.
     Use random.getrandbits(bits) to generate a random number of the
      specified bit length.
+
+    Total complexity for n bits:
+    Time complexity: O(n ** 5)
+    Space complexity: O(n)
     """
-    potential_prime = random.getrandbits(bits)
-    while miller_rabin(potential_prime, 20) != "prime":
-        potential_prime = random.getrandbits(bits)
+    potential_prime = random.getrandbits(bits) # proabability of prime is 1 / (n * ln(2))
+    while miller_rabin(potential_prime, 20) != "prime": # O(n ** 4)
+        potential_prime = random.getrandbits(bits) # average number of iterations is O(n)
     return potential_prime
 
 
