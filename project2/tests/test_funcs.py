@@ -6,6 +6,7 @@ from project2.convex_hull import (
     compute_hull,
     split_points,
     keep_between_indecies,
+    combine_hulls,
 )
 
 
@@ -13,15 +14,9 @@ def test_is_ccw():
     assert is_ccw((1, 2), (3, 4), (2, 5))
     assert not is_ccw((1, 2), (3, 4), (3, 2))
     assert not is_ccw((0, 0), (1, 1), (1, 0))
-
-    with pytest.raises(ValueError):
-        is_ccw((1, 2), (3, 4), (1, 2))
-
-    with pytest.raises(ValueError):
-        is_ccw((1, 2), (5, 6), (3, 4))
-
-    with pytest.raises(ValueError):
-        is_ccw((1, 2), (3, 4), (5, 6))
+    assert not is_ccw((1, 2), (3, 4), (1, 2))
+    assert not is_ccw((1, 2), (5, 6), (3, 4))
+    assert not is_ccw((1, 2), (3, 4), (5, 6))
 
 
 def test_cross_product():
@@ -51,5 +46,24 @@ def test_split_points():
 
 def test_keep_between_indecies():
     points = [(1, 0), (1, 1), (0, 1), (-1, 1), (-1, 0), (-1, -1), (0, -1), (1, -1)]
-    assert keep_between_indecies(points, (0, 4)) == [(1, 0), (1, 1), (0, 1), (-1, 1), (-1, 0)]
-    assert keep_between_indecies(points, (4, 0)) == [(-1, 0), (-1, -1), (0, -1), (1, -1), (1, 0)]
+    assert keep_between_indecies(points, (0, 4)) == [
+        (1, 0),
+        (1, 1),
+        (0, 1),
+        (-1, 1),
+        (-1, 0),
+    ]
+    assert keep_between_indecies(points, (4, 0)) == [
+        (-1, 0),
+        (-1, -1),
+        (0, -1),
+        (1, -1),
+        (1, 0),
+    ]
+
+
+def test_combine_hulls():
+    left = [(-1, 1), (-1, -1), (0, 0)]
+    right = [(1, 1), (1, -1)]
+
+    assert sorted(combine_hulls(left, right)) == [(-1, -1), (-1, 1), (1, -1), (1, 1)]

@@ -14,7 +14,10 @@ def compute_hull(points: list[tuple[float, float]]) -> list[tuple[float, float]]
         else:
             return [points[2], points[1], points[0]]
 
-    return []
+    left, right = split_points(points)
+    left_hull = compute_hull(left)
+    right_hull = compute_hull(right)
+    return combine_hulls(left_hull, right_hull)
 
 
 def split_points(
@@ -62,17 +65,26 @@ def combine_hulls(
             bottom_chord_indecies = (i, j)
             break
 
-    
+    left = keep_between_indecies(
+        left, (top_chord_indecies[0], bottom_chord_indecies[0])
+    )
+    right = keep_between_indecies(
+        right, (bottom_chord_indecies[1], top_chord_indecies[1])
+    )
+
+    return left + right
 
 
-def keep_between_indecies(points: list[tuple[float, float]], indecies: tuple[int, int]) -> list[tuple[float, float]]:
+def keep_between_indecies(
+    points: list[tuple[float, float]], indecies: tuple[int, int]
+) -> list[tuple[float, float]]:
     """Return the subset of points that are between the provided indecies"""
-    
+
     start, end = indecies
     if start < end:
-        return points[start:end + 1]
+        return points[start : end + 1]
     else:
-        return points[start:] + points[:end + 1]
+        return points[start:] + points[: end + 1]
 
 
 def is_ccw(
@@ -84,12 +96,10 @@ def is_ccw(
     Raises a ValueError if any two of the points are the same,
     or if the points are collinear"""
     if a == b or b == c or a == c:
-        raise ValueError("Two points are the same")
+        return False
     ba = (a[0] - b[0], a[1] - b[1])
     bc = (c[0] - b[0], c[1] - b[1])
-    if (cross := cross_product(ba, bc)) == 0:
-        raise ValueError("Points are collinear")
-    return cross <= 0
+    return cross_product(ba, bc) < 0
 
 
 def cross_product(a: tuple[float, float], b: tuple[float, float]) -> float:
