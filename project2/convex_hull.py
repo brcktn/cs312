@@ -34,8 +34,8 @@ def combine_hulls(
 ) -> list[tuple[float, float]]:
     """Return the convex hull of the two provided hulls
     Assumes that both hulls are sorted in ccw order"""
-    rigthmost_left_index = max(enumerate(left), key=lambda x: x[1][0])[0]
-    leftmost_right_index = min(enumerate(right), key=lambda x: x[1][0])[0]
+    rigthmost_left_index = max(enumerate(left), key=lambda x: x[1][0])[0]   # O(n)
+    leftmost_right_index = min(enumerate(right), key=lambda x: x[1][0])[0]  # O(n)
 
     i = rigthmost_left_index
     j = leftmost_right_index
@@ -74,13 +74,16 @@ def combine_hulls(
 def keep_between_indecies(
     points: list[tuple[float, float]], indecies: tuple[int, int]
 ) -> list[tuple[float, float]]:
-    """Return the subset of points that are between the provided indecies"""
+    """Return the subset of points that are between the provided indecies
+
+    Time complexity: O(n)
+    Space complexity: O(n)"""
 
     start, end = indecies
     if start <= end:
         return points[start : end + 1]
     else:
-        return points[start:] + points[: end + 1]
+        return points[start:] + points[: end + 1]  # worse case O(n)
 
 
 def is_ccw(
@@ -90,7 +93,10 @@ def is_ccw(
     order and False otherwise
 
     Also returns False if any two of the points are the same,
-    or if the points are collinear"""
+    or if the points are collinear
+
+    Time complexity: O(1)
+    Space complexity: O(1)"""
     if a == b or b == c or a == c:
         return False
     ba = (a[0] - b[0], a[1] - b[1])
@@ -100,5 +106,8 @@ def is_ccw(
 
 def cross_product(a: tuple[float, float], b: tuple[float, float]) -> float:
     """Return the magnitiude of the cross product
-    of the planar vectors a and b"""
+    of the planar vectors a and b
+
+    Time complexity: O(1)
+    Space complexity: O(1)"""
     return a[0] * b[1] - a[1] * b[0]
