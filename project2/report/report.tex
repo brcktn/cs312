@@ -16,7 +16,7 @@
 \usepackage{threeparttable}
 
 % Title
-\title{CS312 Project 1 Report}
+\title{CS312 Project 2 Report}
 \author{Brock Gregersen}
 \date{\today}
 
@@ -26,22 +26,75 @@
 
 \section{Algorithm Analysis}
 
-\begin{table}[h!]
-\centering
-\begin{threeparttable}
-\begin{tabular}{@{}lcc@{}}
-\toprule
-\textbf{Algorithm}                  & \textbf{Time Complexity}   & \textbf{Space Complexity} \\ \midrule
-                                    &                            &                           \\
-                                    &                            &                           \\
-                                    &                            &                           \\
-                                    &                            &                           \\
-                                    &                            &                           \\
-                                    &                            &                           \\ \bottomrule
-\end{tabular}
-\end{threeparttable}
-\caption{Time and Space Complexity of Algorithms in Convex Hull}
-\label{tab:complexities}
+\subsection{Cross Product}
+The function \texttt{cross\_product()} has a fixed input size of 4 
+floats, and has a fixed number of float arithmetic operations, leading to a
+time complexity of $O(1)$ and a space complexity of $O(1)$.
+
+\subsection{Determining Point Order}
+The function \texttt{is\_ccw()} has a fixed input size of 3 points
+with 2 floats each, and has a fixed number of float operations and
+comparisions, as well as one use of \texttt{cross\_product()}
+leading to a time complexity of $O(1)$ and a space complexity of $O(1)$.
+
+\subsection{Keeping Points Between Indices}
+\texttt{keep\_between\_indices()} takes as inputs a list of points,
+and 2 indices. In its worst case, concatenates 2 subsets of the
+input list, leading to a time complexity of $O(n)$ and a space
+complexity of $O(n)$.
+
+\subsection{Combining Hulls}
+\texttt{combine\_hulls()} takes as inputs 2 lists of points, each 
+already in counter clockwise order. In order to find the upper and
+lower tangents, it first finds the rightmost and leftmost points
+in $O(n)$ time. It then finds the upper and lower tangents by iterating
+through the left and right hulls. Because we iterate around both the left
+and right hulls, the time complexity is $O(n)$ and the space complexity
+is $O(n)$. The points between the tangents are removed in $O(n)$ time
+using \texttt{keep\_between\_indices()}, and the 2 hulls are concatenated
+in $O(n)$ time. The overall time complexity is $O(n)$ and the space
+complexity is $O(n)$.
+
+\subsection{Dividing Points into 2 Hulls}
+\texttt{divide\_points()} takes as input a list of points, divides them
+into left and right halves. This involves sorting the points by x-coordinate
+using the built-in \texttt{sorted()} function, which uses Timsort, which has
+a worst case time complexity of $O(n \log n)$, and a time complexity of
+$O(n)$ for already sorted data. In the first call of \texttt{divide\_points},
+the time complexity is $O(n \log n)$, however, in subsequent calls, the time
+complexity is $O(n)$. The space complexity is $O(n)$.
+
+\subsection{Convex Hull Generation}
+\texttt{computex\_hull()} takes as input a list of points, and generates
+the convex hull using the divide and conquer algorithm. In the base case
+where the number of points is less than 4, the convex hull is generated
+in $O(1)$ time. In the recursive case, the points are divided into left
+and right halves in $O(n)$ time, and the hulls are combined in $O(n)$ time.
+In the recursive case, $T(n)$ = $2T(n/2) + O(n)$. Using the Master Theorem,
+the time complexity is $O(n \log n)$, plus an overhead of $O(n \log n)$ in
+the first call from sorting. This leads to a total time complexity of
+$O(n \log n)$ and a space complexity of $O(n)$.
+
+\section{Time Complexity Table}
+\begin{table}[h]
+    \centering
+    \begin{threeparttable}
+        \begin{tabular}{@{}lcc@{}}
+            \toprule
+            \textbf{Function} & \textbf{Time Complexity} & \textbf{Space Complexity} \\ \midrule
+            \texttt{cross\_product()} & $O(1)$ & $O(1)$ \\
+            \texttt{is\_ccw()} & $O(1)$ & $O(1)$ \\
+            \texttt{keep\_between\_indices()} & $O(n)$ & $O(n)$ \\
+            \texttt{combine\_hulls()} & $O(n)$ & $O(n)$ \\
+            \texttt{divide\_points()} & $O(n)$\tnote{*} & $O(n)$ \\ 
+            \texttt{compute\_hull()} & $O(n \log n)$ & $O(n)$ \\ \bottomrule
+        \end{tabular}
+        \begin{tablenotes}
+            \item[*] $O(n \log n)$ in the first call
+        \end{tablenotes}
+        \caption{Time and Space Complexity of Functions used in Convex Hull Generation}
+        \label{tab:complexity}
+    \end{threeparttable}
 \end{table}
 
 \section[Comparison of Empirical and Theoretical Time Complexity]{Comparison of Empirical and Theoretical \\ Time Complexity}
