@@ -6,6 +6,7 @@
 \usepackage{hyperref}
 \usepackage{booktabs}
 \usepackage{threeparttable}
+\usepackage{pgfplots}
 \usepackage[top=1in, bottom=1in, left=1in, right=1in]{geometry} % Adjust margins
 
 % Packages
@@ -15,6 +16,7 @@
 \usepackage{booktabs}
 \usepackage{threeparttable}
 
+
 % Title
 \title{CS312 Project 2 Report}
 \author{Brock Gregersen}
@@ -23,6 +25,9 @@
 \begin{document}
 
 \maketitle
+\tableofcontents % Add this line to insert a table of contents
+
+\newpage
 
 \section{Algorithm Analysis}
 
@@ -79,7 +84,7 @@ $O(n \log n)$ and a space complexity of $O(n)$.
 \begin{table}[h]
     \centering
     \begin{threeparttable}
-        \begin{tabular}{@{}lcc@{}}
+        \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lcc@{}}
             \toprule
             \textbf{Function} & \textbf{Time Complexity} & \textbf{Space Complexity} \\ \midrule
             \texttt{cross\_product()} & $O(1)$ & $O(1)$ \\
@@ -88,7 +93,7 @@ $O(n \log n)$ and a space complexity of $O(n)$.
             \texttt{combine\_hulls()} & $O(n)$ & $O(n)$ \\
             \texttt{divide\_points()} & $O(n)$\tnote{*} & $O(n)$ \\ 
             \texttt{compute\_hull()} & $O(n \log n)$ & $O(n)$ \\ \bottomrule
-        \end{tabular}
+        \end{tabular*}
         \begin{tablenotes}
             \item[*] $O(n \log n)$ in the first call
         \end{tablenotes}
@@ -97,10 +102,107 @@ $O(n \log n)$ and a space complexity of $O(n)$.
     \end{threeparttable}
 \end{table}
 
+\newpage % Add this line to insert a page break
 \section[Comparison of Empirical and Theoretical Time Complexity]{Comparison of Empirical and Theoretical \\ Time Complexity}
+\begin{table}[h]
+    \centering
+    \begin{threeparttable}
+        \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lcc@{}}
+            \toprule
+            \textbf{Number of Points} & \textbf{Actual Runtime (seconds)} & \textbf{Fit to Runtime\tnote{*} (seconds)}\\ \midrule
+            10 & 0.00003 & -0.66642 \\
+            100 & 0.00021 & -0.15295 \\
+            1000 & 0.00244 & 0.36053 \\
+            10000 & 0.02342 & 0.87401 \\
+            100000 & 0.23958 & 1.38748 \\
+            500000 & 1.66867 & 1.74639 \\
+            1000000 & 3.51449 & 1.90096 \\ \bottomrule
+        \end{tabular*}
+        \begin{tablenotes}
+            \item[*] Using $T = 0.223\log n - 1.1799$ (constant of proportionality of 0.223) based on logarithmic regression model
+        \end{tablenotes}
+        \caption{Empirical and Logarithmic Fit Runtime of \texttt{compute\_hull()}}
+        \label{tab:runtime}
+    \end{threeparttable}
+\end{table}
+
+\pgfplotsset{compat=1.18}
+
+\begin{figure}[h]
+    \centering
+    \begin{tikzpicture}
+        \begin{axis}[
+            xlabel={Number of Points},
+            ylabel={Runtime (seconds)},
+            xmode=log,
+            ymode=linear,
+            legend pos=north west,
+            grid=both,
+            grid style={line width=.1pt, draw=gray!10},
+            major grid style={line width=.2pt,draw=gray!50},
+            minor tick num=5,
+            width=\textwidth,
+            height=0.5\textwidth,
+            log basis x={10},
+            log basis y={10}
+        ]
+        \addplot[
+            color=blue,
+            mark=square,
+            ]
+            coordinates {
+            (10,0.00003)
+            (100,0.00021)
+            (1000,0.00244)
+            (10000,0.02342)
+            (100000,0.23958)
+            (500000,1.66867)
+            (1000000,3.51449)
+            };
+        \addlegendentry{Actual Runtime}
+        
+        \addplot[
+            color=red,
+            mark=triangle,
+            ]
+            coordinates {
+            (10,-0.66642)
+            (100,-0.15295)
+            (1000,0.36053)
+            (10000,0.87401)
+            (100000,1.38748)
+            (500000,1.74639)
+            (1000000,1.90096)
+            };
+        \addlegendentry{Fit to Runtime}
+        
+        \end{axis}
+    \end{tikzpicture}
+    \caption{Comparison of Empirical and Logarithmic Fit Runtime of \texttt{compute\_hull()}}
+    \label{fig:runtime_graph}
+\end{figure}
 
 \section{Discussion}
+The empirical runtime of the \texttt{compute\_hull()} function was
+compared to the theoretical time complexity of $O(n \log n)$ using
+a logarithmic regression model. The acutal runtime appears to be 
+slightly slower than the theoretical $O(n \log n)$ time complexity, 
+but much faster than a $O(n^2)$ fit. 
 
-\section{Example Dataset}
+
+\section{Example Datasets}
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.6\textwidth]{100 points.png}
+    \caption{Convex Hull for 100 Points}
+    \label{fig:100_points}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.6\textwidth]{1000 points.png}
+    \caption{Convex Hull for 1000 Points}
+    \label{fig:1000_points}
+\end{figure}
 
 \end{document}

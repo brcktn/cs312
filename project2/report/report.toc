@@ -1,0 +1,11 @@
+\contentsline {section}{\numberline {1}Algorithm Analysis}{2}{section.1}%
+\contentsline {subsection}{\numberline {1.1}Cross Product}{2}{subsection.1.1}%
+\contentsline {subsection}{\numberline {1.2}Determining Point Order}{2}{subsection.1.2}%
+\contentsline {subsection}{\numberline {1.3}Keeping Points Between Indices}{2}{subsection.1.3}%
+\contentsline {subsection}{\numberline {1.4}Combining Hulls}{2}{subsection.1.4}%
+\contentsline {subsection}{\numberline {1.5}Dividing Points into 2 Hulls}{2}{subsection.1.5}%
+\contentsline {subsection}{\numberline {1.6}Convex Hull Generation}{2}{subsection.1.6}%
+\contentsline {section}{\numberline {2}Time Complexity Table}{3}{section.2}%
+\contentsline {section}{\numberline {3}Comparison of Empirical and Theoretical Time Complexity}{4}{section.3}%
+\contentsline {section}{\numberline {4}Discussion}{4}{section.4}%
+\contentsline {section}{\numberline {5}Example Datasets}{5}{section.5}%
