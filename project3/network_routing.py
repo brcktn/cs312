@@ -11,8 +11,11 @@ def find_shortest_path_with_heap(
     Return:
         - the list of nodes (including `source` and `target`)
         - the cost of the path
+
+    Time complexity: O((V + E) log V)
+    Space complexity: O(V)
     """
-    dist, prev = dijkstra(graph, source, HeapPriorityQueue)
+    dist, prev = dijkstra(graph, source, HeapPriorityQueue) # O((V + E) log V)
     path = []
     while target is not None:
         path.insert(0, target)
@@ -30,8 +33,11 @@ def find_shortest_path_with_array(
     Return:
         - the list of nodes (including `source` and `target`)
         - the cost of the path
+    
+    Time complexity: O(V^2)
+    Space complexity: O(V)
     """
-    dist, prev = dijkstra(graph, source, ListPriorityQueue)
+    dist, prev = dijkstra(graph, source, ListPriorityQueue) # O(V^2)
     path = []
     while target is not None:
         path.insert(0, target)
@@ -48,9 +54,16 @@ def dijkstra(
     Return:
         - the dictionary of distances from `source` to each node
         - the dictionary of previous nodes on the shortest path from `source` to each node
+
+    Complexities notated in for list / heap priority queue for V vertices and E edges:
+
+    Time complexity: O(V^2) / O((V + E) log V)
+    Space complexity: O(V) / O(V)
     """
     pq = priority_queue()
 
+    # Initialize the distance and previous node dictionaries 
+    # O(V log V) / O(log V)
     dist = {vertex: inf for vertex in graph}
     prev = {vertex: None for vertex in graph}
     dist[source] = 0
@@ -59,17 +72,17 @@ def dijkstra(
 
     visited = set()
 
-    while not pq.is_empty():
-        vertex, _ = pq.pop()
-        visited.add(vertex)
+    while not pq.is_empty(): # pq has a max of V + E elements: O(V + E)
+        vertex, _ = pq.pop() # O(1) / O(log V)
+        visited.add(vertex) # O(Log V)
 
-        for neighbor in graph[vertex]:
-            if neighbor not in visited and neighbor in graph[vertex]:
-                new_dist = dist[vertex] + graph[vertex][neighbor]
-                if new_dist < dist[neighbor]:
-                    dist[neighbor] = new_dist
-                    prev[neighbor] = vertex
-                    pq.push(neighbor, new_dist)
+        for neighbor in graph[vertex]: # loop runs E times in total
+            if neighbor not in visited and neighbor in graph[vertex]: # O(log V)
+                new_dist = dist[vertex] + graph[vertex][neighbor] # O(log V)
+                if new_dist < dist[neighbor]: # O(log V)
+                    dist[neighbor] = new_dist # O(log V)
+                    prev[neighbor] = vertex # O(log V)
+                    pq.push(neighbor, new_dist) # O(V log V) / O(log V)
 
     return dist, prev
 
@@ -79,13 +92,34 @@ class ListPriorityQueue:
         self.queue = []
 
     def push(self, node, priority):
-        self.queue.append((node, priority))
-        self.queue.sort(key=lambda x: x[1])
+        """
+        Add a new element to the queue.
+        
+        Time complexity: O(n log n)
+        Space complexity: O(1)
+        """
+        self.queue.append((node, priority)) # O(1)
+        self.queue.sort(key=lambda x: x[1]) # O(n log n)
 
     def pop(self):
+        """
+        Remove and return the top element from the queue.
+        
+        Time complexity: O(1)
+        Space complexity: O(1)
+        """
+        
+        if self.is_empty():
+            return None
         return self.queue.pop(0)
 
     def is_empty(self):
+        """
+        Returns True if the queue is empty, False otherwise.
+        
+        Time complexity: O(1)
+        Space complexity: O(1)
+        """
         return len(self.queue) == 0
 
 
