@@ -1,4 +1,3 @@
-import pytest
 from byu_pytest_utils import max_score
 
 from project1.fermat import mod_exp, fermat, miller_rabin

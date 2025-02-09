@@ -1,7 +1,7 @@
 import argparse
 import math
 import random
-from math import inf
+# from math import inf
 from time import time
 
 from plotting import (
@@ -134,5 +134,5 @@ if __name__ == "__main__":
     main(args.seed, args.n, args.density, args.noise, args.source, args.target)
 
     # You can use a loop like the following to generate data for your tables:
-    # for n in [100, 200, 400, 800, 1600, 3200, 6400]:
-    #     main(312, n, 1, 0.05, 2, 9)
+    for n in [100, 200, 400, 800, 1600, 3200, 6400]:
+        main(312, n, 1, 0.05, 2, 9)
