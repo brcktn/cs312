@@ -15,9 +15,9 @@ def find_shortest_path_with_heap(
     Time complexity: O((V + E) log V)
     Space complexity: O(V)
     """
-    dist, prev = dijkstra(graph, source, HeapPriorityQueue) # O((V + E) log V)
+    dist, prev = dijkstra(graph, source, HeapPriorityQueue)  # O((V + E) log V)
     path = []
-    while target is not None:
+    while target is not None:  # O(V)
         path.insert(0, target)
         target = prev[target]
     return path, dist[path[-1]]
@@ -33,13 +33,13 @@ def find_shortest_path_with_array(
     Return:
         - the list of nodes (including `source` and `target`)
         - the cost of the path
-    
+
     Time complexity: O(V^2)
     Space complexity: O(V)
     """
-    dist, prev = dijkstra(graph, source, ListPriorityQueue) # O(V^2)
+    dist, prev = dijkstra(graph, source, ListPriorityQueue)  # O(V^2)
     path = []
-    while target is not None:
+    while target is not None:  # O(V)
         path.insert(0, target)
         target = prev[target]
     return path, dist[path[-1]]
@@ -55,34 +55,39 @@ def dijkstra(
         - the dictionary of distances from `source` to each node
         - the dictionary of previous nodes on the shortest path from `source` to each node
 
-    Complexities notated in for list / heap priority queue for V vertices and E edges:
+    Complexities notated in for [ list / heap priority queue ] for V vertices and E edges:
 
     Time complexity: O(V^2) / O((V + E) log V)
     Space complexity: O(V) / O(V)
     """
     pq = priority_queue()
 
-    # Initialize the distance and previous node dictionaries 
-    # O(V log V) / O(log V)
-    dist = {vertex: inf for vertex in graph}
-    prev = {vertex: None for vertex in graph}
-    dist[source] = 0
-    for vertex in graph:
-        pq.push(vertex, dist[vertex])
+    # Initialize the distance and previous node dictionaries
+    # O(V) / O(V log V)
+    dist = {vertex: inf for vertex in graph} # O(V)
+    prev = {vertex: None for vertex in graph} # O(V)
+    dist[source] = 0 # O(1)
+    for vertex in graph: 
+        pq.push(vertex, dist[vertex]) # O(1) / O(log V)
 
     visited = set()
 
-    while not pq.is_empty(): # pq has a max of V + E elements: O(V + E)
-        vertex, _ = pq.pop() # O(1) / O(log V)
-        visited.add(vertex) # O(Log V)
+    # loop breaks when all vertices are visited
+    # runs V times in total
+    while not pq.is_empty():  
+        vertex, _ = pq.pop()  # O(V) / O(log V)
+        visited.add(vertex)  # O(1)
 
-        for neighbor in graph[vertex]: # loop runs E times in total
-            if neighbor not in visited and neighbor in graph[vertex]: # O(log V)
-                new_dist = dist[vertex] + graph[vertex][neighbor] # O(log V)
-                if new_dist < dist[neighbor]: # O(log V)
-                    dist[neighbor] = new_dist # O(log V)
-                    prev[neighbor] = vertex # O(log V)
-                    pq.push(neighbor, new_dist) # O(V log V) / O(log V)
+        for neighbor in graph[vertex]:  # inner loop runs E times in total
+            if neighbor not in visited and neighbor in graph[vertex]:  # O(log V)
+                new_dist = dist[vertex] + graph[vertex][neighbor]  # O(1)
+                if new_dist < dist[neighbor]:  # O(1)
+                    dist[neighbor] = new_dist  # O(1)
+                    prev[neighbor] = vertex  # O(1)
+                    pq.push(neighbor, new_dist)  # O(1) / O(log V)
+
+        if len(visited) == len(graph):
+            break
 
     return dist, prev
 
@@ -94,29 +99,31 @@ class ListPriorityQueue:
     def push(self, node, priority):
         """
         Add a new element to the queue.
-        
-        Time complexity: O(n log n)
-        Space complexity: O(1)
-        """
-        self.queue.append((node, priority)) # O(1)
-        self.queue.sort(key=lambda x: x[1]) # O(n log n)
 
-    def pop(self):
-        """
-        Remove and return the top element from the queue.
-        
         Time complexity: O(1)
         Space complexity: O(1)
         """
-        
+        self.queue.append((node, priority))  # O(1)
+
+    def pop(self):
+        """
+        Remove and return the element with the minimum priority from the queue.
+
+        Time complexity: O(n)
+        Space complexity: O(1)
+        """
         if self.is_empty():
             return None
-        return self.queue.pop(0)
+        min_index = 0
+        for i in range(1, len(self.queue)):
+            if self.queue[i][1] < self.queue[min_index][1]:
+                min_index = i
+        return self.queue.pop(min_index)
 
     def is_empty(self):
         """
         Returns True if the queue is empty, False otherwise.
-        
+
         Time complexity: O(1)
         Space complexity: O(1)
         """
@@ -130,7 +137,7 @@ class HeapPriorityQueue:
     def push(self, node, priority):
         """
         Add a new element to the heap.
-        
+
         Time complexity: O(log n)
         Space complexity: O(1)
         """
@@ -149,10 +156,10 @@ class HeapPriorityQueue:
     def pop(self):
         """
         Remove and return the top element from the heap.
-        
+
         Return:
             - The top element of the heap.
-        
+
         Time complexity: O(log n)
         Space complexity: O(1)
         """
@@ -162,12 +169,12 @@ class HeapPriorityQueue:
         self.queue[0] = self.queue[-1]
         self.queue.pop()
 
-        self.heap_down(0) # O(log n)
+        self.heap_down(0)  # O(log n)
 
         return top
 
     def heap_down(self, index):
-        """"
+        """
         Heapify the heap from the given index.
 
         Time complexity: O(log n)
