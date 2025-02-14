@@ -19,18 +19,7 @@ def test_list_push_unordered():
     pq.push(1, 1)
     pq.push(4, 4)
     pq.push(2, 2)
-    assert pq.queue == [(1, 1), (2, 2), (3, 3), (4, 4), (5, 5)]
-
-
-def test_list_push_with_inf():
-    pq = ListPriorityQueue()
-    pq.push(5, 5)
-    pq.push(3, 3)
-    pq.push(1, 1)
-    pq.push(4, 4)
-    pq.push(2, 2)
-    pq.push(6, inf)
-    assert pq.queue == [(1, 1), (2, 2), (3, 3), (4, 4), (5, 5), (6, inf)]
+    assert pq.queue == [(5,5), (3,3), (1,1), (4,4), (2,2)]
 
 
 def test_list_pop():
@@ -45,6 +34,22 @@ def test_list_pop():
     assert pq.pop() == (3, 3)
     assert pq.pop() == (4, 4)
     assert pq.pop() == (5, 5)
+
+
+def test_list_pop_with_inf():
+    pq = ListPriorityQueue()
+    pq.push(5, 5)
+    pq.push(3, 3)
+    pq.push(1, 1)
+    pq.push(4, 4)
+    pq.push(2, 2)
+    pq.push(6, inf)
+    assert pq.pop() == (1, 1)
+    assert pq.pop() == (2, 2)
+    assert pq.pop() == (3, 3)
+    assert pq.pop() == (4, 4)
+    assert pq.pop() == (5, 5)
+    assert pq.pop() == (6, inf)
 
 
 def test_list_is_empty():

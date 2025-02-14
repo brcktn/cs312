@@ -1,4 +1,6 @@
 from math import inf
+import sys
+sys.setrecursionlimit(10**6)
 
 
 def find_shortest_path_with_heap(
@@ -84,7 +86,7 @@ def dijkstra(
                 if new_dist < dist[neighbor]:  # O(1)
                     dist[neighbor] = new_dist  # O(1)
                     prev[neighbor] = vertex  # O(1)
-                    pq.push(neighbor, new_dist)  # O(1) / O(log V)
+                    pq.decrease_key(neighbor, new_dist)  # O(1) / O(log V)
 
         if len(visited) == len(graph):
             break
@@ -119,6 +121,18 @@ class ListPriorityQueue:
             if self.queue[i][1] < self.queue[min_index][1]:
                 min_index = i
         return self.queue.pop(min_index)
+
+    def decrease_key(self, node, new_priority):
+        """
+        Decrease the priority of the given node.
+
+        Time complexity: O(n)
+        Space complexity: O(1)
+        """
+        for i in range(len(self.queue)): # runs max n times
+            if self.queue[i][0] == node: # O(1)
+                self.queue[i] = (node, new_priority) # O(1)
+                break
 
     def is_empty(self):
         """
@@ -160,18 +174,19 @@ class HeapPriorityQueue:
         Return:
             - The top element of the heap.
 
-        Time complexity: O(log n)
+        Time complexity: O(log n) (amortized)
         Space complexity: O(1)
         """
-        if self.is_empty():
-            return None
-        top = self.queue[0]
-        self.queue[0] = self.queue[-1]
-        self.queue.pop()
+        while True:
+            if self.is_empty():
+                return None
+            top = self.queue[0]
+            self.queue[0] = self.queue[-1]
+            self.queue.pop()
+            self.heap_down(0) # O(log n)
+            if top[0] is not None:
+                return top
 
-        self.heap_down(0)  # O(log n)
-
-        return top
 
     def heap_down(self, index):
         """
@@ -199,6 +214,19 @@ class HeapPriorityQueue:
                 self.queue[index],
             )
             self.heap_down(smallest)
+
+    def decrease_key(self, node, new_priority):
+        """
+        Decrease the priority of the given node.
+
+        Time complexity: O(n)
+        Space complexity: O(1)
+        """
+        for i in range(len(self.queue)):
+            if self.queue[i][0] == node:
+                self.queue[i] = (None, self.queue[i][1])
+                self.push(node, new_priority)
+                break
 
     def is_empty(self):
         """

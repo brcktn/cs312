@@ -11,6 +11,7 @@
 \usepackage{algorithm}
 \usepackage{algpseudocode}
 \usepackage{algorithmicx}
+\usepackage{siunitx}
 
 % Title
 \title{CS312 Project 3 Report}
@@ -227,18 +228,20 @@ complexity of $O(V)$ in both cases.
 
 \section{Empirical Analysis}
 
+\subsection{Runtime Data}
+
 \begin{table}[h!]
     \centering
     \begin{threeparttable}
         \caption{Empirical Analysis of Dijkstra's Algorithm (low density)}
-        \begin{tabular}{@{}ccccc@{}}
+        \begin{tabular}{@{}rSrSS@{}}
             \toprule
             \textbf{n} & \textbf{Density} & \textbf{\# Edges} & \textbf{Heap Time (s)} & \textbf{List Time (s)} \\ \midrule
-            1000         & 0.01     &              &          &           \\
-            5000         & 0.002    &              &          &           \\
-            10000        & 0.001    & 100000       & 0.08181  & 9.36556   \\
-            50000        & 0.0002   & 500000       & 0.64276  & 289.97018 \\
-            100000       & 0.0001   &              &          &           \\
+            1000   & 0.01   & 10000   &    &   \\
+            5000   & 0.002  & 50000   &    &   \\
+            10000  & 0.001  & 100000  &    &   \\
+            50000  & 0.0002 & 500000  &    &   \\
+            100000 & 0.0001 & 1000000 &    &   \\
             \bottomrule
         \end{tabular}
     \end{threeparttable}
@@ -248,18 +251,20 @@ complexity of $O(V)$ in both cases.
     \centering
     \begin{threeparttable}
         \caption{Empirical Analysis of Dijkstra's Algorithm (High Density)}
-        \begin{tabular}{@{}ccccc@{}}
+        \begin{tabular}{@{}ccrSS@{}}
             \toprule
             \textbf{n} & \textbf{Density} & \textbf{\# Edges} & \textbf{Heap Time (s)} & \textbf{List Time (s)} \\ \midrule
-            1000        & 1  & 999000   & 0.89116        & 6.31628                 \\
-            2000        & 1  & 3998000  & 4.99092        & 58.35537                \\
-            3000        & 1  &    &         &                  \\
-            4000        & 1  &    &         &                  \\
-            5000        & 1  &    &         &                  \\
-            6000        & 1  &    &         &                  \\
+            1000 & 1 & 999000   &  &  \\
+            2000 & 1 & 3998000  &  &  \\
+            3000 & 1 & 8997000  &  &  \\
+            4000 & 1 & 15996000 &  &  \\
+            5000 & 1 & 24995000 &  &  \\
+            6000 & 1 & 35994000 &  &  \\
             \bottomrule
         \end{tabular}
     \end{threeparttable}
 \end{table}
+
+\subsection{Discussion}
 
 \end{document}
