@@ -70,24 +70,17 @@ def dijkstra(
     for vertex in graph:
         pq.push(vertex, dist[vertex])  # O(1) / O(log V)
 
-    visited = set()
-
     # loop breaks when all vertices are visited
     # runs V times in total
     while not pq.is_empty():
         vertex, current_dist = pq.pop()  # O(V) / O(log V)
-        visited.add(vertex)  # O(1)
 
         for neighbor in graph[vertex]:  # inner loop runs E times in total
-            if neighbor not in visited and neighbor in graph[vertex]:  # O(log V)
-                new_dist = current_dist + graph[vertex][neighbor]  # O(1)
-                if new_dist < dist[neighbor]:  # O(1)
-                    dist[neighbor] = new_dist  # O(1)
-                    prev[neighbor] = vertex  # O(1)
-                    pq.decrease_key(neighbor, new_dist)  # O(1) / O(log V)
-
-        if len(visited) == len(graph):
-            break
+            new_dist = current_dist + graph[vertex][neighbor]  # O(1)
+            if new_dist < dist[neighbor]:  # O(1)
+                dist[neighbor] = new_dist  # O(1)
+                prev[neighbor] = vertex  # O(1)
+                pq.decrease_key(neighbor, new_dist)  # O(1) / O(log V)
 
     return dist, prev
 
@@ -236,7 +229,7 @@ class HeapPriorityQueue:
                         i = (i - 1) // 2
                     else:
                         break
-
+                break
 
     def is_empty(self):
         """

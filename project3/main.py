@@ -63,13 +63,13 @@ def main(seed: int, size: int, density: float, noise: float, source: int, target
         f"Direct cost from {source} to {target}: {weights[source].get(target, math.inf)}"
     )
 
-    # plot_points(positions)
-    # if num_edges < 50:
-    #     # If the number of non-inf edges is < 50
-    #     plot_weights(positions, weights)
+    plot_points(positions)
+    if num_edges < 50:
+        # If the number of non-inf edges is < 50
+        plot_weights(positions, weights)
 
-    # circle_point(positions[source], c="r")
-    # circle_point(positions[target], c="b")
+    circle_point(positions[source], c="r")
+    circle_point(positions[target], c="b")
 
     start = time()
     path, cost = find_shortest_path_with_heap(weights, source, target)
@@ -81,7 +81,7 @@ def main(seed: int, size: int, density: float, noise: float, source: int, target
     print("Cost:", cost)
     print("Time:", heap_time)
 
-    # draw_path(positions, path)
+    draw_path(positions, path)
 
     start = time()
     path, cost = find_shortest_path_with_array(weights, source, target)
@@ -93,8 +93,8 @@ def main(seed: int, size: int, density: float, noise: float, source: int, target
     print("Cost:", cost)
     print("Time:", array_time)
 
-    # title(f"Cost: {cost}, Heap: {round(heap_time, 4)}, Array: {round(array_time, 4)}")
-    # show_plot()
+    title(f"Cost: {cost}, Heap: {round(heap_time, 4)}, Array: {round(array_time, 4)}")
+    show_plot()
 
 
 if __name__ == "__main__":

@@ -66,7 +66,7 @@ def test_list_decrease_key():
     pq.push(3, 8)
     pq.push(4, 7)
     pq.push(5, 6)
-    
+
     pq.decrease_key(5, 1)
     pq.decrease_key(4, 2)
     pq.decrease_key(3, 3)
@@ -87,7 +87,7 @@ def test_list_decrease_key_reverse():
     pq.push(3, 8)
     pq.push(4, 7)
     pq.push(5, 6)
-    
+
     pq.decrease_key(5, 5)
     pq.decrease_key(4, 4)
     pq.decrease_key(3, 3)
@@ -148,13 +148,13 @@ def test_heap_pop():
 
 def test_heap_pop_with_duplicates():
     pq = HeapPriorityQueue()
-    pq.push(1,1)
-    pq.push(2,1)
-    pq.push(3,1)
-    pq.push(4,1)
-    pq.push(5,1)
-    pq.push(6,1)
-    pq.push(7,1)
+    pq.push(1, 1)
+    pq.push(2, 1)
+    pq.push(3, 1)
+    pq.push(4, 1)
+    pq.push(5, 1)
+    pq.push(6, 1)
+    pq.push(7, 1)
 
     assert pq.queue == [(1, 1), (2, 1), (3, 1), (4, 1), (5, 1), (6, 1), (7, 1)]
 
@@ -196,7 +196,7 @@ def test_heap_decrease_key_reverse():
     pq.push(3, 8)
     pq.push(4, 7)
     pq.push(5, 6)
-    
+
     pq.decrease_key(5, 5)
     pq.decrease_key(4, 4)
     pq.decrease_key(3, 3)
@@ -237,7 +237,6 @@ def test_dijkstra_small():
     dist, prev = dijkstra(input_graph, 1, HeapPriorityQueue)
     assert dist == {1: 0, 2: 1, 3: 3, 4: 4}
     assert prev == {1: None, 2: 1, 3: 2, 4: 3}
-
 
 
 def test_dijkstra_large():
