@@ -1,6 +1,4 @@
 from math import inf
-import sys
-sys.setrecursionlimit(10**6)
 
 
 def find_shortest_path_with_heap(
@@ -66,23 +64,23 @@ def dijkstra(
 
     # Initialize the distance and previous node dictionaries
     # O(V) / O(V log V)
-    dist = {vertex: inf for vertex in graph} # O(V)
-    prev = {vertex: None for vertex in graph} # O(V)
-    dist[source] = 0 # O(1)
-    for vertex in graph: 
-        pq.push(vertex, dist[vertex]) # O(1) / O(log V)
+    dist = {vertex: inf for vertex in graph}  # O(V)
+    prev = {vertex: None for vertex in graph}  # O(V)
+    dist[source] = 0  # O(1)
+    for vertex in graph:
+        pq.push(vertex, dist[vertex])  # O(1) / O(log V)
 
     visited = set()
 
     # loop breaks when all vertices are visited
     # runs V times in total
-    while not pq.is_empty():  
-        vertex, _ = pq.pop()  # O(V) / O(log V)
+    while not pq.is_empty():
+        vertex, current_dist = pq.pop()  # O(V) / O(log V)
         visited.add(vertex)  # O(1)
 
         for neighbor in graph[vertex]:  # inner loop runs E times in total
             if neighbor not in visited and neighbor in graph[vertex]:  # O(log V)
-                new_dist = dist[vertex] + graph[vertex][neighbor]  # O(1)
+                new_dist = current_dist + graph[vertex][neighbor]  # O(1)
                 if new_dist < dist[neighbor]:  # O(1)
                     dist[neighbor] = new_dist  # O(1)
                     prev[neighbor] = vertex  # O(1)
@@ -129,9 +127,12 @@ class ListPriorityQueue:
         Time complexity: O(n)
         Space complexity: O(1)
         """
-        for i in range(len(self.queue)): # runs max n times
-            if self.queue[i][0] == node: # O(1)
-                self.queue[i] = (node, new_priority) # O(1)
+        # if new_priority >= self.queue[0][1]:  # O(1)
+        #     raise ValueError(f"New priority is not less than the current priority.\n{self.queue}\n{node}, {new_priority}")
+
+        for i in range(len(self.queue)):  # runs max n times
+            if self.queue[i][0] == node:  # O(1)
+                self.queue[i] = (node, new_priority)  # O(1)
                 break
 
     def is_empty(self):
@@ -177,16 +178,14 @@ class HeapPriorityQueue:
         Time complexity: O(log n) (amortized)
         Space complexity: O(1)
         """
-        while True:
-            if self.is_empty():
-                return None
-            top = self.queue[0]
-            self.queue[0] = self.queue[-1]
-            self.queue.pop()
-            self.heap_down(0) # O(log n)
-            if top[0] is not None:
-                return top
 
+        if self.is_empty():
+            return None
+        top = self.queue[0]
+        self.queue[0] = self.queue[-1]
+        self.queue.pop()
+        self.heap_down(0)  # O(log n)
+        return top
 
     def heap_down(self, index):
         """
@@ -220,13 +219,24 @@ class HeapPriorityQueue:
         Decrease the priority of the given node.
 
         Time complexity: O(n)
-        Space complexity: O(1)
         """
         for i in range(len(self.queue)):
             if self.queue[i][0] == node:
-                self.queue[i] = (None, self.queue[i][1])
-                self.push(node, new_priority)
-                break
+                if new_priority >= self.queue[i][1]:
+                    raise ValueError(
+                        "New priority is not less than the current priority."
+                    )
+                self.queue[i] = (node, new_priority)
+                while i > 0:
+                    if self.queue[i][1] < self.queue[(i - 1) // 2][1]:
+                        self.queue[i], self.queue[(i - 1) // 2] = (
+                            self.queue[(i - 1) // 2],
+                            self.queue[i],
+                        )
+                        i = (i - 1) // 2
+                    else:
+                        break
+
 
     def is_empty(self):
         """
