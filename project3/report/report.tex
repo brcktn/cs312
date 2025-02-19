@@ -170,16 +170,18 @@ leading to a time complexity of $O(\log{n})$.
     \caption{HeapPriorityQueue.\textsc{decrease\_key}}
     \begin{algorithmic}[1]
         \For{$i$ in heap} \Comment{runs max n times}
-            \State heap[i][1] $\gets$ new\_priority
-            \While {$i > 0$} \Comment{runs max $\log{n}$ times}
-                \If{heap[i][1] $<$ heap[$\lfloor \text{(i - 1) / 2} \rfloor$][1]}
-                    \State Swap heap[i] and heap[$\lfloor \text{(i - 1) / 2} \rfloor$]
-                    \State i $\gets$ $\lfloor \text{(i - 1) / 2} \rfloor$
-                \Else
-                    \State \textbf{break}
-                \EndIf
-            \EndWhile
-            \State \textbf{break}
+            \If{heap[i][0] = node}
+                \State heap[i][1] $\gets$ new\_priority
+                \While {$i > 0$} \Comment{runs max $\log{n}$ times}
+                    \If{heap[i][1] $<$ heap[$\lfloor \text{(i - 1) / 2} \rfloor$][1]}
+                        \State Swap heap[i] and heap[$\lfloor \text{(i - 1) / 2} \rfloor$]
+                        \State i $\gets$ $\lfloor \text{(i - 1) / 2} \rfloor$
+                    \Else
+                        \State \textbf{break}
+                    \EndIf
+                \EndWhile
+                \State \textbf{break}
+            \EndIf
         \EndFor
     \end{algorithmic}
 \end{algorithm}
@@ -233,12 +235,12 @@ increased by recursive calls of \textsc{heap\_down}, leading to a space complexi
 \end{algorithm}
 
 This implementation of Dijkstra's algorithm uses Python's dictionary data
-structures to store each nodes current distance. This data structure
+structure to store each nodes current distance. This data structure
 uses an underlying hash table, so the time complexity of operations on them is
 $O(1)$. The while loop runs ends after all nodes have been visited, so it runs
 $V$ times. The for loop runs for each edge, so it runs $E$ times. Factoring in
-the \textsc{Push} operation inside the for loop, and the \textsc{Pop} operation
-inside the while loop, the time complexity of the algorithm is $O(E * \textsc{push}(V)
+the \textsc{decrease\_key} operation inside the for loop, and the \textsc{Pop} operation
+inside the while loop, the time complexity of the algorithm is $O(E * \textsc{decrease\_key}(V)
  + V * \textsc{pop}(V) + \textsc{push}(V))$. Simplifying with the time complexity
 of the operations in each priority queue implementation, the time complexity of
 the algorithm is $O((E+V)\log V)$ for the heap based priority queue and $O(V^2)$
@@ -311,7 +313,8 @@ graphs, the number of edges is not much greater than the number of vertices, so
 the heap based priority queue has a lower time complexity. For high density graphs,
 the list based priority queue has a faster runtime than the heap based priority queue.
 This also makes sense, because the number of edges is much greater than the number
-of edges factors into the $O((E+V)\log V)$ time complexity of the heap based priority
-queue, but not the $O(V^2)$ time complexity of the list based priority queue.
+of vertices. Unlike the time complexity of the list based priority queue, the
+$O((E+V)\log V)$ time complexity of the heap based priority queue depends on the 
+number of edges.
 
 \end{document}
