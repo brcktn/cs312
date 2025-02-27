@@ -64,23 +64,30 @@ def dijkstra(
 
     # Initialize the distance and previous node dictionaries
     # O(V) / O(V log V)
-    dist = {vertex: inf for vertex in graph}  # O(V)
-    prev = {vertex: None for vertex in graph}  # O(V)
-    dist[source] = 0  # O(1)
-    for vertex in graph:
-        pq.push(vertex, dist[vertex])  # O(1) / O(log V)
+    dist = {vertex: inf for vertex in graph} # O(V)
+    prev = {vertex: None for vertex in graph} # O(V)
+    dist[source] = 0 # O(1)
+    for vertex in graph: 
+        pq.push(vertex, dist[vertex]) # O(1) / O(log V)
+
+    visited = set()
 
     # loop breaks when all vertices are visited
     # runs V times in total
-    while not pq.is_empty():
-        vertex, current_dist = pq.pop()  # O(V) / O(log V)
+    while not pq.is_empty():  
+        vertex, _ = pq.pop()  # O(V) / O(log V)
+        visited.add(vertex)  # O(1)
 
         for neighbor in graph[vertex]:  # inner loop runs E times in total
-            new_dist = current_dist + graph[vertex][neighbor]  # O(1)
-            if new_dist < dist[neighbor]:  # O(1)
-                dist[neighbor] = new_dist  # O(1)
-                prev[neighbor] = vertex  # O(1)
-                pq.decrease_key(neighbor, new_dist)  # O(1) / O(log V)
+            if neighbor not in visited and neighbor in graph[vertex]:  # O(log V)
+                new_dist = dist[vertex] + graph[vertex][neighbor]  # O(1)
+                if new_dist < dist[neighbor]:  # O(1)
+                    dist[neighbor] = new_dist  # O(1)
+                    prev[neighbor] = vertex  # O(1)
+                    pq.push(neighbor, new_dist)  # O(1) / O(log V)
+
+        if len(visited) == len(graph):
+            break
 
     return dist, prev
 
@@ -112,21 +119,6 @@ class ListPriorityQueue:
             if self.queue[i][1] < self.queue[min_index][1]:
                 min_index = i
         return self.queue.pop(min_index)
-
-    def decrease_key(self, node, new_priority):
-        """
-        Decrease the priority of the given node.
-
-        Time complexity: O(n)
-        Space complexity: O(1)
-        """
-        # if new_priority >= self.queue[0][1]:  # O(1)
-        #     raise ValueError(f"New priority is not less than the current priority.\n{self.queue}\n{node}, {new_priority}")
-
-        for i in range(len(self.queue)):  # runs max n times
-            if self.queue[i][0] == node:  # O(1)
-                self.queue[i] = (node, new_priority)  # O(1)
-                break
 
     def is_empty(self):
         """
@@ -168,16 +160,17 @@ class HeapPriorityQueue:
         Return:
             - The top element of the heap.
 
-        Time complexity: O(log n) (amortized)
+        Time complexity: O(log n)
         Space complexity: O(1)
         """
-
         if self.is_empty():
             return None
         top = self.queue[0]
         self.queue[0] = self.queue[-1]
         self.queue.pop()
+
         self.heap_down(0)  # O(log n)
+
         return top
 
     def heap_down(self, index):
@@ -206,30 +199,6 @@ class HeapPriorityQueue:
                 self.queue[index],
             )
             self.heap_down(smallest)
-
-    def decrease_key(self, node, new_priority):
-        """
-        Decrease the priority of the given node.
-
-        Time complexity: O(n)
-        """
-        for i in range(len(self.queue)):
-            if self.queue[i][0] == node:
-                if new_priority >= self.queue[i][1]:
-                    raise ValueError(
-                        "New priority is not less than the current priority."
-                    )
-                self.queue[i] = (node, new_priority)
-                while i > 0:
-                    if self.queue[i][1] < self.queue[(i - 1) // 2][1]:
-                        self.queue[i], self.queue[(i - 1) // 2] = (
-                            self.queue[(i - 1) // 2],
-                            self.queue[i],
-                        )
-                        i = (i - 1) // 2
-                    else:
-                        break
-                break
 
     def is_empty(self):
         """

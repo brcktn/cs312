@@ -1,0 +1,96 @@
+\documentclass[10pt]{article}
+
+% Set paper size to 3x5 inches
+\usepackage[papersize={5in,3in}, margin=0in, twocolumn]{geometry}
+
+% Font and typography
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+
+% Other useful packages
+\usepackage{graphicx}   % For images
+\usepackage{amsmath}    % Math support
+\usepackage{amssymb}    % More math symbols
+\usepackage{hyperref}   % Clickable links
+\usepackage{enumitem}   % Better lists
+\usepackage{xcolor}     % Custom colors
+
+
+
+\setlength{\parindent}{0pt}
+
+% Title and author formatting
+
+\begin{document}
+
+$O(g(n)) = \{f(n)|\exists C, n_0>0:$
+\par
+\hspace{10pt} $0 \le f(n)\le cg(n)\forall n \ge n_0\}$
+\par
+$\Omega(g(n))$: lower bound
+\par
+$\Theta(g(n))$: tight bound
+\hrule
+
+if $n$ is prime: $a^{n-1} \equiv 1$ (mod $n$)
+\hrule
+
+\textbf{func} $modexp(a,b,n)$:
+\par
+\textbf{if} $b=0$ \textbf{then} return 1
+\par
+z = $modexp(a,\lfloor b/2 \rfloor,n)$
+\par
+\textbf{if} $b$ is odd \textbf{then} return $z^2$ (mod $n$)
+\par
+\textbf{else} return $z^2 \cdot a$ (mod $n$)
+\hrule
+
+\textbf{func} $extEuclid(a,b)$:
+\par
+\hspace{10pt} \textbf{if} $b=0$ \textbf{then} return $(1,0,a)$
+\par
+$x,y,z = extEuclid(b,a \mod b)$
+\par
+\hspace{10pt} return $(y,x - \lfloor a/b \rfloor y,z)$
+\hrule
+
+dijistra: finds shortest path: $s$ to all
+\par
+bellman-ford: over all E's V-1 times
+\par
+kruskal: finds MST starting from edges
+\par
+prim: finds MST starting from one vertex
+
+\vspace{.5cm}
+
+
+
+\begin{enumerate}
+    \item pick primes $p,q$ and $n=pq$
+    \item pick $e$ r.p. to $(p-1)(q-1)= \phi$
+    \item pick $d$ such that $ed \equiv 1 \mod \phi$
+    \item encrypt $x$ as $y \equiv x^e \mod n = y$
+    \item decrypt $y$ as $x \equiv y^d \mod n = x$
+\end{enumerate}
+\hrule
+
+for $T(n) = aT(\lceil n/b \rceil) + O(n^d)$
+\[
+T(n) = 
+\begin{cases}
+O(n^d) & \text{if } 1 > \frac{a}{b^d} \\
+O(n^d \log n) & \text{if } 1 = \frac{a}{b^d} \\
+O(n^{\log_b a}) & \text{if } 1 < \frac{a}{b^d}
+\end{cases}
+\]
+\hrule
+
+
+
+
+
+
+\end{document}

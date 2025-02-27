@@ -5,7 +5,7 @@ import random
 # from math import inf
 from time import time
 
-from plotting import (
+from project3.plotting import (
     plot_points,
     draw_path,
     circle_point,
@@ -13,7 +13,7 @@ from plotting import (
     show_plot,
     plot_weights,
 )
-from network_routing import find_shortest_path_with_array, find_shortest_path_with_heap
+from project3.network_routing import find_shortest_path_with_array, find_shortest_path_with_heap
 
 
 def rand1to1():
@@ -135,7 +135,5 @@ if __name__ == "__main__":
     main(args.seed, args.n, args.density, args.noise, args.source, args.target)
 
     # You can use a loop like the following to generate data for your tables:
-    # for i in range(5):
-    #     a = [1000, 5000, 10000, 50000, 100000]
-    #     b = [0.01, 0.002, 0.001, 0.0005, 0.0001]
-    #     main(312, a[i], b[i], 0.02, 2, 9)
+    # for n in [1000, 2000, 3000, 4000, 5000, 6000]:
+    #     main(312, n, 1, 0.02, 2, 9)
