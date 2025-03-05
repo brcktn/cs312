@@ -88,6 +88,60 @@ O(n^{\log_b a}) & \text{if } 1 < \frac{a}{b^d}
 \]
 \hrule
 
+\newpage
+
+\textbf{func} \emph{huffman}$(S,f)$:
+\par
+\hspace{10pt} T = null
+\par
+\hspace{10pt} H.$makequeue(S)$
+\par
+\hspace{10pt} \textbf{while} $|H|>1$ \textbf{do}
+\par
+\hspace{20pt} i $\gets$ H.$deletemin()$
+\par
+\hspace{20pt} j $\gets$ H.$deletemin()$
+\par
+\hspace{20pt} $f(k) \gets f(i)+f(j)$
+\par
+\hspace{20pt} T.$insert(k)$
+\par
+\hspace{20pt} T.$insert(i,j)$
+\par
+\hspace{20pt} $k.left \gets i$
+\par
+\hspace{20pt} $k.right \gets j$
+\par
+\hspace{10pt} \textbf{return} T
+\vspace{.125cm}
+\hrule
+
+\vspace{2.25cm}
+\textbf{func} \emph{miller\_rabin}$(n)$:
+\par
+\hspace{10pt} $n-1 = 2^s \cdot d$
+\par
+\hspace{10pt} $a \gets$ random int in $[2,n-2]$
+\par
+\hspace{10pt} $x \gets$ $a^d \mod n$
+\par
+\hspace{10pt} \textbf{if} $x=1$ \textbf{or} $x=n-1$ \textbf{then}
+\par
+\hspace{20pt} \textbf{for} $i=1$ to $s-1$ \textbf{do}
+\par
+\hspace{30pt} $x \gets x^2 \mod n$
+\par
+\hspace{30pt} \textbf{if} $x=1$ \textbf{then}
+\par
+\hspace{40pt} \textbf{return} composite
+\par
+\hspace{20pt} \textbf{if} $x \neq n-1$ \textbf{then}
+\par
+\hspace{40pt} \textbf{return} composite
+\par
+\hspace{10pt} \textbf{return} probably prime
+\vspace{.125cm}
+\hrule
 
 
 
