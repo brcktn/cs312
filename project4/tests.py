@@ -24,3 +24,10 @@ def test_is_match():
 
     assert matrix.is_match(2,2)
     assert not matrix.is_match(1,1)
+
+def test_init_values():
+    matrix = NWMatrix("abc", "cba")
+    matrix.init_values(1)
+
+    assert matrix.get_value(0, 3) == 3
+    assert matrix.get_value(2, 0) == 2

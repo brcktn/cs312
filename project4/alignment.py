@@ -22,6 +22,11 @@ def align(
         :param gap: the character to use to represent gaps in the alignment strings
         :return: alignment cost, alignment 1, alignment 2
     """
+    matrix = NWMatrix(seq1, seq2)
+    matrix.init_values(sub_penalty)
+    for i in range(1, len(seq2)):
+        for j in range(1, len(seq1)):
+            pass
 
 
 class NWMatrix:
@@ -49,3 +54,9 @@ class NWMatrix:
         at the given indicies
         """
         return self.seq1[index1] == self.seq2[index2]
+    
+    def init_values(self, sub_penalty: int):
+        for i in range(1, len(self.seq1)):
+            self.set_value(i * sub_penalty, i, 0)
+        for i in range(1, len(self.seq2)):
+            self.set_value(i * sub_penalty, 0, i)
