@@ -9,7 +9,7 @@ def main(seq1: str, seq2: str):
     Align the two sequences and print the score and alignment strings
     """
     score, alignment1, alignment2 = align(seq1, seq2)
-    print(f'Score: {score}')
+    print(f"Score: {score}")
     print(alignment1)
     print(alignment2)
 
@@ -22,10 +22,10 @@ def _content_or_string(could_be_path):
         return could_be_path
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     parser = ArgumentParser()
-    parser.add_argument('seq1_file', help='Path to file containing sequence 1')
-    parser.add_argument('seq2_file', help='Path to file containing sequence 2')
+    parser.add_argument("seq1_file", help="Path to file containing sequence 1")
+    parser.add_argument("seq2_file", help="Path to file containing sequence 2")
     args = parser.parse_args()
 
     seq1 = _content_or_string(args.seq1_file)
