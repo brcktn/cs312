@@ -24,9 +24,9 @@ def align(
     :param gap: the character to use to represent gaps in the alignment strings
     :return: alignment cost, alignment 1, alignment 2
 
-    Time complexity: O(n*m) for unrestricted, O(n*banded_width) for banded
-    Space complexity: O(n*m) for unrestricted, O(n*banded_width) for banded
-    where n is the length of seq1 and m is the length of seq2
+    Time complexity: O(n*m) for unrestricted, O(n*k) for banded
+    Space complexity: O(n*m) for unrestricted, O(n*k) for banded
+    where n is the length of seq1, m is the length of seq2, and k is the banded width
     """
     if banded_width == -1:
         return align_unrestricted(
@@ -55,7 +55,7 @@ def align_unrestricted(
     Time complexity: O(n*m)
     Space complexity: O(n*m)
     """
-    matrix = NWMatrix(seq1, seq2) #O(n*m)
+    matrix = Matrix(seq1, seq2) #O(n*m)
     matrix.init_values(indel_penalty) #O(n+m)
     for row in range(1, len(seq1) + 1): # runs n times: O(n*m)
         for column in range(1, len(seq2) + 1): # runs m times: O(m)
@@ -121,13 +121,13 @@ def align_banded(
     :param gap: the character to use to represent gaps in the alignment strings
     :return: alignment cost, alignment 1, alignment 2
 
-    Time complexity: O(n*banded_width + n+m) = O(n) assuming m = n and banded_width is small
-    Space complexity: O(n* banded_width) = O(n)
+    Time complexity: O(n*d)
+    Space complexity: O(n*d)
     """
-    matrix = BandedMatrix(seq1, seq2, banded_width) #O(n*banded_width)
-    matrix.init_values(indel_penalty) #O(banded_width)
-    for row in range(1, len(seq1) + 1): # runs n times: O(n*banded_width)
-        for column in range(row - banded_width, row + banded_width + 1): # runs 2*banded_width times: O(banded_width)
+    matrix = BandedMatrix(seq1, seq2, banded_width) #O(n*k)
+    matrix.init_values(indel_penalty) #O(k)
+    for row in range(1, len(seq1) + 1): # runs n times: O(n*k)
+        for column in range(row - banded_width, row + banded_width + 1): # runs 2*k times: O(k)
             insert_score = matrix.get_value(row - 1, column) + indel_penalty
             delete_score = matrix.get_value(row, column - 1) + indel_penalty
             if matrix.is_match(row, column):
@@ -165,7 +165,7 @@ def align_banded(
     return matrix.get_value(len(seq1), len(seq2)), alignment1, alignment2
 
 
-class NWMatrix:
+class Matrix:
     def __init__(self, seq1: str, seq2: str):
         """
         Initialize the matrix with the sequences
@@ -231,8 +231,8 @@ class BandedMatrix:
         """
         Initialize the banded matrix with the sequences and banded width
 
-        Time complexity: O(n*banded_width)
-        Space complexity: O(n*banded_width)
+        Time complexity: O(n*d)
+        Space complexity: O(n*d)
         """
         self.seq1 = " " + seq1
         self.seq2 = " " + seq2
@@ -289,7 +289,7 @@ class BandedMatrix:
         """
         initializes the values on the left and top of the matrix
         
-        Time complexity: O(banded_width)
+        Time complexity: O(d)
         """
         self.set_value(0, 0, 0)
         for i in range(1, self.banded_width + 1):

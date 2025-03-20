@@ -1,0 +1,208 @@
+\documentclass[12pt]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{geometry}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{algorithmicx}
+
+\geometry{a4paper, margin=1in}
+
+\title{Project 4}
+\author{Brock Gregersen}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+\newpage
+
+\section{Unrestricted Algrorithm}
+\subsection{Data Structure}
+My implementation of the unrestricted Needleman-Wunsch algorithm uses
+a datastructure using an underlying $n \times m$ list which is created in $O(nm)$
+time. It also saves the input as strings. This datastructure includes
+constant time and space functions for setting and getting values, as well
+as checking whether the input strings match at given indices. A function to
+initialize the values on the top and left edges of the matrix is also included:
+
+\begin{algorithm}[H]
+    \caption{Matrix.\textsc{init\_values}}
+    \begin{algorithmic}[1]
+        \State \textbf{Input:} indel\_penalty
+        \State matrix[0][0] $\gets$ 0
+        \For{$i = 1$ to $n$} \Comment{runs $n$ times}
+            \State matrix[i][0] $\gets$ i * indel\_penalty
+        \EndFor
+        \For{$j = 1$ to $m$} \Comment{runs $m$ times}
+            \State matrix[0][j] $\gets$ j * indel\_penalty
+        \EndFor
+    \end{algorithmic}
+\end{algorithm}
+
+\textsc{init\_values} uses constant time operations inside loops that
+run $n$ and $m$ times, respectively, leading to a time complexity of
+$O(n + m)$. No additional space is used.
+
+\subsection{Minimization}
+
+My implementation of the unrestricted Needleman-Wunsch algorithm uses the
+following algorithm to fill in the matrix and find the minimum score:
+
+\begin{algorithm}[H]
+    \caption{\textsc{minimize\_alignment}}
+    \begin{algorithmic}[1]
+        \State \textbf{Input:} str1, str2, indel\_penalty, match\_score, mismatch\_penalty
+        \State matrix $\gets$ new Matrix(str1.length(), str2.length()) \Comment{$O(nm)$}
+        \State matrix.\textsc{init\_values}(indel\_penalty) \Comment{$O(n + m)$}
+        \For{$i = 1$ to $n$} \Comment{runs $n$ times}
+            \For{$j = 1$ to $m$} \Comment{runs $m$ times}
+                \State insert\_score $\gets$ matrix[$i-1$][$j$] + indel\_penalty
+                \State delete\_score $\gets$ matrix[$i$][$j-1$] + indel\_penalty
+                \If{\textsc{match}($i$, $j$)}
+                    \State match\_score $\gets$ matrix[$i-1$][$j-1$] + match\_score
+                \Else
+                    \State match\_score $\gets$ matrix[$i-1$][$j-1$] + mismatch\_penalty
+                \EndIf
+                \State matrix[$i$][$j$] $\gets$ min(insert\_score, delete\_score, match\_score)
+            \EndFor
+        \EndFor
+        \State \textbf{return:} matrix$[n][m]$
+    \end{algorithmic}
+\end{algorithm}
+
+The time complexity only scales with the number of times the loops run,
+leading to a time complexity of $O(nm)$. The only non constant space used
+is the matrix and the input strings, which are $O(nm)$ and $O(n + m)$,
+respectively, giving $O(nm)$ space complexity.
+
+
+\subsection{Backtracking}
+
+The algorithm then backtracks through the matrix to find the optimal
+alignment using the following algorithm:
+
+\begin{algorithm}[H]
+    \caption{\textsc{backtrack}}
+    \label{alg:backtrack}
+    \begin{algorithmic}[1]
+        \State alignment1 $\gets$ \texttt{""}
+        \State alignment2 $\gets$ \texttt{""}
+        \State $i \gets$ length(str1)
+        \State $j \gets$ length(str2)
+        \While{$i > 0$ \textbf{or} $j > 0$} \Comment{runs at most $n + m$ times}
+            \If{matrix$[i][j]$ = matrix$[i-1][j-1] + \text{indel\_penalty}$ \textbf{and} $\textsc{match}(i, j)$}
+                \State alignment1 $\gets$ str1[$i$] + alignment1
+                \State alignment2 $\gets$ str2[$j$] + alignment2
+                \State $i \gets i - 1$
+                \State $j \gets j - 1$
+            \ElsIf{matrix$[i][j]$ = matrix$[i-1][j-1] + \text{indel\_penalty}$}
+                \State alignment1 $\gets$ str1[$i$] + alignment1
+                \State alignment2 $\gets$ str2[$j$] + alignment2
+                \State $i \gets i - 1$
+                \State $j \gets j - 1$
+            \ElsIf{matrix$[i][j]$ = matrix$[i][j-1] + \text{indel\_penalty}$}
+                \State alignment1 $\gets$ \texttt{"-"} + alignment1
+                \State alignment2 $\gets$ str2[$j$] + alignment2
+                \State $j \gets j - 1$
+            \ElsIf{matrix$[i][j]$ = matrix$[i-1][j] + \text{indel\_penalty}$}
+                \State alignment1 $\gets$ str1[$i$] + alignment1
+                \State alignment2 $\gets$ \texttt{"-"} + alignment2
+                \State $i \gets i - 1$
+            \EndIf
+        \EndWhile
+        \State \textbf{return:} alignment1, alignment2
+    \end{algorithmic}
+\end{algorithm}
+
+All operations inside the loops are constant time, and the loops run at most
+$n + m$ times, leading to a time complexity of $O(n + m)$. The only additional
+space used is for the two strings, which each scale with the size of $n$ and $m$,
+leading to a space complexity of $O(n + m)$. In addition to the time and space
+complexity of finding the minimum score, both the time and space complexity of
+the unrestricted algorithm is $O(nm)$.
+
+\newpage
+
+\section{Banded Algorithm}
+
+\subsection{Data Structure}
+
+Similar to the unrestricted algorithm, my implementation of the banded
+Needleman-Wunsch algorithm uses a 2D list as the underlying data structure,
+however in this case, the matrix is of size $n \times k$ where $k$ is the
+bandwith, or $2d + 1$. As with the unrestricted algorithm, constant time
+and space functions are implemented for setting and getting values, as well as
+checking whether the input strings match at given indices. This datastructure
+also abstracts the $n \times k$ matrix so that values can be accessed using
+the same indices as the unrestricted algorithm. A function to
+initialize the values on the top and left edges of the matrix is also included:
+\begin{algorithm}[H]
+    \caption{Matrix.\textsc{init\_values}}
+    \begin{algorithmic}[1]
+        \State \textbf{Input:} indel\_penalty
+        \State matrix[0][0] $\gets$ 0
+        \For{$i = 1$ to $d$} \Comment{runs $d$ times}
+            \State matrix[i][0] $\gets$ $i$ * indel\_penalty
+        \EndFor
+        \For{$j = 1$ to $d$} \Comment{runs $d$ times}
+            \State matrix[0][j] $\gets$ $j$ * indel\_penalty
+        \EndFor
+    \end{algorithmic}
+\end{algorithm}
+
+\textsc{init\_values} uses constant time operations inside loops that
+run $d$ times, leading to a time complexity of $O(d)$. No additional space
+is used.
+
+\subsection{Minimization}
+The following algorithm is used to fill in the matrix and find
+the minimum score:
+
+\begin{algorithm}[H]
+    \caption{\textsc{minimize\_alignment}}
+    \begin{algorithmic}[1]
+        \State \textbf{Input:} str1, str2, indel\_penalty, match\_score, mismatch\_penalty
+        \State matrix $\gets$ new Matrix(str1.length(), str2.length()) \Comment{$O(nd)$}
+        \State matrix.\textsc{init\_values}(indel\_penalty) \Comment{$O(d)$}
+        \For{$i = 1$ to $n$} \Comment{runs $n$ times}
+            \For{$j = i - d$ to $i + d$} \Comment{runs $2d + 1 = k$ times}
+                \State insert\_score $\gets$ matrix[$i-1$][$j$] + indel\_penalty
+                \State delete\_score $\gets$ matrix[$i$][$j-1$] + indel\_penalty
+                \If{\textsc{match}($i$, $j$)}
+                    \State match\_score $\gets$ matrix[$i-1$][$j-1$] + match\_score
+                \Else
+                    \State match\_score $\gets$ matrix[$i-1$][$j-1$] + mismatch\_penalty
+                \EndIf
+                \State matrix[$i$][$j$] $\gets$ min(insert\_score, delete\_score, match\_score)
+            \EndFor
+        \EndFor
+        \State \textbf{return:} matrix$[n][m]$
+    \end{algorithmic}
+\end{algorithm}
+
+The time complexity only scales with the number of times the loops run,
+leading to a time complexity of $O(n(d + 1)) =  O(nd)$. The only non
+constant space used is the matrix and the input strings, which are $O(nd)$
+and $O(n + m)$, respectively, giving $O(nd)$ space complexity, assuming
+$n = m$.
+
+\subsection{Backtracking}
+The algorithm then backtracks through the matrix to find the optimal
+alignment using an algorithm identical to the backtracking algorithm used
+in the unrestricted algorithm, shown in 
+\textbf{\hyperref[alg:backtrack]{Algorithm~\ref*{alg:backtrack}}}.
+The $O(n + m)$ time and space complexity of the backtracking algorithm in 
+addition to the $O(nd)$ time and space complexity of the banded algorithm
+gives a total time complexity of $O(nd)$ and a total space complexity of $O(nd)$
+for the banded algorithm, assuming $n = m$.
+
+
+
+\end{document}

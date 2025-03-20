@@ -1,9 +1,9 @@
-from alignment import NWMatrix, BandedMatrix, align, align_banded
+from alignment import Matrix, BandedMatrix, align, align_banded
 from math import inf
 
 
 def test_create_matrix():
-    matrix = NWMatrix("test1", "test2")
+    matrix = Matrix("test1", "test2")
     reference = [
         [inf, inf, inf, inf, inf, inf],
         [inf, inf, inf, inf, inf, inf],
@@ -63,7 +63,7 @@ def test_out_of_bounds_banded():
 
 
 def test_set_and_get():
-    matrix = NWMatrix("test1", "a")
+    matrix = Matrix("test1", "a")
     matrix.set_value(2, 1, 1)
 
     assert matrix.get_matrix()[1][1] == 2
@@ -77,7 +77,7 @@ def test_set_banded():
 
 
 def test_get_out_of_bounds():
-    matrix = NWMatrix("test1", "a")
+    matrix = Matrix("test1", "a")
     matrix.set_value(2, 1, 1)
     matrix.set_value(3, 1, 1)
     matrix.set_value(4, 1, 1)
@@ -87,7 +87,7 @@ def test_get_out_of_bounds():
 
 
 def test_is_match():
-    matrix = NWMatrix("abc", "cba")
+    matrix = Matrix("abc", "cba")
 
     assert matrix.is_match(2, 2)
     assert not matrix.is_match(1, 1)
@@ -101,7 +101,7 @@ def test_is_match_banded():
 
 
 def test_init_values():
-    matrix = NWMatrix("abc", "cba")
+    matrix = Matrix("abc", "cba")
     matrix.init_values(1)
 
     assert matrix.get_value(0, 3) == 3
