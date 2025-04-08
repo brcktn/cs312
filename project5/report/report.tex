@@ -1,0 +1,72 @@
+\documentclass[12pt]{article}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{geometry}
+\geometry{margin=1in}
+
+\title{CS312 Project 5 Report}
+\author{}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section*{Complexity Analysis (45 points)}
+
+\subsection*{Greedy (5 points)}
+
+\subsection*{DFS (5 points)}
+
+\subsection*{Branch-and-Bound (20 points)}
+\subsubsection*{Priority Queue}
+\subsubsection*{Reduced Cost Matrix (including updating it)}
+\subsubsection*{BSSF Initialization}
+\subsubsection*{Expanding one Search State into its Children}
+\subsubsection*{Data Structures for States}
+\subsubsection*{Full Algorithm}
+
+\subsection*{Smart Branch-and-Bound (15 points)}
+\subsubsection*{Differences from Standard B\&B}
+\subsubsection*{Priority Queue Data Structure}
+\subsubsection*{Priority Computation for Partial Paths}
+
+\section*{Empirical Results (25 points)}
+
+\subsection*{Runtimes (15 points)}
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{ccccccc}
+\toprule
+Seed & N & Random & Greedy & DFS & B\&B & Smart B\&B \\
+\midrule
+312 & 10 & & & & & \\
+1   & 15 & & & & & \\
+2   & 20 & & & & & \\
+3   & 30 & & & & & \\
+4   & 50 & & & & & \\
+\midrule
+\multicolumn{7}{l}{\textit{Additional test cases:}} \\
+X   & Y  & & & & & \\
+X   & Y  & & & & & \\
+X   & Y  & & & & & \\
+\bottomrule
+\end{tabular}
+\caption{Runtime Results for Different Algorithms}
+\label{tab:runtimes}
+\end{table}
+
+\subsection*{Discussion (10 points)}
+
+\subsubsection*{Strengths and Weaknesses of Each Algorithm}
+\subsubsection*{Plots and Figures}
+
+\section*{Submission Instructions}
+\begin{itemize}
+    \item Turn in your source code and PDF report to Gradescope.
+    \item Do not turn in a zip file; upload each file individually and submit together.
+\end{itemize}
+
+\end{document}
