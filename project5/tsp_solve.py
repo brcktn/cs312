@@ -361,3 +361,18 @@ def update_matrix_for_path(matrix: list[list[float]], row: int, col: int) -> tup
 
     return updated_matrix, edge_cost + reduction_value
 
+# for i in [(312, 10), (1, 15), (2, 20), (3, 30), (4, 50), (1, 20), (1, 25), (1, 30)]:
+#     _, edges = generate_network(
+#         i[1],
+#         euclidean=True,
+#         reduction=0.2,
+#         normal=False,
+#         seed=i[0],
+#     )
+#     for func in [random_tour, greedy_tour, dfs, branch_and_bound, branch_and_bound_smart]:
+#         timer = Timer(30)
+#         stats = func(edges, timer)
+#         if stats:
+#             print(f"{func.__name__} finished for {i[1]} nodes on seed {i[0]} with score {stats[-1].score}")
+#         else:
+#             print(f"{func.__name__} finished for {i[1]} nodes on seed {i[0]} with score na")

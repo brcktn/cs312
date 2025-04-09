@@ -121,3 +121,23 @@ def test_triangle():
     for triangle_data, expected in test_cases:
         result = solution.minimumTotal(triangle_data)
         assert result == expected, f"Test failed for triangle={triangle_data}: expected {expected}, got {result}"
+
+
+def test_two_sum():
+    from two_sum import Solution
+
+    # Create an instance of the Solution class
+    solution = Solution()
+
+    # Test cases
+    test_cases = [
+        ([2, 7, 11, 15], 9, [0, 1]),   # Example case
+        ([3, 2, 4], 6, [1, 2]),       # Two numbers that sum to target
+        ([3, 3], 6, [0, 1]),          # Same number twice
+        ([1, 2, 3], 5, [1, 2]),       # Last two numbers
+        ([5, -1, 2, -3], -1, [2, 3])   # Negative numbers
+    ]
+
+    for nums, target, expected in test_cases:
+        result = solution.twoSum(nums, target)
+        assert result == expected, f"Test failed for nums={nums}, target={target}: expected {expected}, got {result}"
