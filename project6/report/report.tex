@@ -1,0 +1,289 @@
+\documentclass[12pt]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{geometry}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage[hidelinks]{hyperref}
+
+\geometry{a4paper, margin=1in}
+
+\renewcommand{\lstlistingname}{Code Snippet} % Change "Listing" to "Code Snippet"
+
+\title{Project 6 Report}
+\author{Your Name}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+\newpage
+
+\section{Tribonacci}
+\subsection{Code}
+\lstset{
+    language=Python,
+    caption=Tribonacci Function,
+    basicstyle=\ttfamily\small,
+    keywordstyle=\color{blue}\bfseries,
+    stringstyle=\color{red},
+    commentstyle=\color{green!50!black},
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    stepnumber=1,
+    numbersep=10pt,
+    showstringspaces=false,
+    breaklines=true,
+    frame=single,
+    rulecolor=\color{black},
+    tabsize=4
+}
+
+\begin{lstlisting}
+def tribonacci(self, n):
+    """
+    :type n: int
+    :rtype: int
+    """
+    if n == 0:
+        return 0
+    elif n == 1 or n == 2:
+        return 1
+
+    a, b, c = 0, 1, 1
+    for _ in range(n - 2):
+        a, b, c = b, c, a + b + c
+
+    return c
+\end{lstlisting}
+
+\subsection{Time and Space Complexity}
+The Tribonacci function uses constant time functions and a loop that runs \( n-2 \) times.
+All operations inside the loop are also \( O(1) \). Therefore, the overalltime complexity is
+$O(n)$. Only 3 variables are used to store the last three values of the sequence,
+so the space complexity is \( O(1) \).
+
+\subsection{Discussion}
+
+\newpage
+
+\section{Two Sum}
+\subsection{Code}
+\lstset{
+    caption=Two Sum,
+}
+\begin{lstlisting}
+def twoSum(self, nums, target):
+    """
+    :type nums: List[int]
+    :type target: int
+    :rtype: List[int]
+    """
+    used = {}
+    for i, num in enumerate(nums):
+        diff = target - num
+        if diff in used:
+            return [used[diff], i]
+        used[num] = i
+\end{lstlisting}
+
+\subsection{Time and Space Complexity}
+My implementation of the Two Sum function uses a Python dictionary to store the
+previously seen numbers and their indices. Python's dictionary uses a hash table,
+so the time compleixty for lookups and insertions is \( O(1) \). The loop, which
+iterates a maximum of \( n \) times, has only constant time operations inside it,
+so the overall time complexity is \( O(n) \). The space complexity is also \( O(n) \)
+because the dictionary has at most \( n \) elements in it.
+
+\subsection{Discussion}
+
+\newpage
+\section{Connect Points}
+\subsection{Code}
+\lstset{
+    caption=Connect Points,
+}
+\begin{lstlisting}
+from heapq import heappush, heappop
+
+def minCostConnectPoints(self, points):
+    """
+    :type points: List[List[int]]
+    :rtype: int
+    """
+    heap = []
+    visited = {0}
+    total = 0
+
+    for i in range(1, len(points)):
+        heappush(heap, (dist(points[0], points[i]), (0, i)))
+
+    while len(visited) < len(points):
+        cost, (point1, point2) = heappop(heap)
+        if point2 in visited:
+            continue
+        visited.add(point2)
+        total += cost
+        for i in range(len(points)):
+            if i not in visited:
+                heappush(heap, (dist(points[point2], points[i]), (point2, i)))
+
+    return total
+
+def dist(self, point1, point2):
+    return abs(point1[0]-point2[0]) + abs(point1[1]-point2[1])
+\end{lstlisting}
+
+\subsection{Time and Space Complexity}
+My implementation of Connect Points uses Prim's algorithm to find the minimum spanning tree
+of the graph where the weights are defined by the taxicab distance between points. A heap
+based priority queue is used to store the edges of the graph, which has a time complexity of
+\( O(\log n) \) for insertions and deletions. The time complexity is dominated by the while loop,
+which runs at most \( \binom{n}{2} \) times, where \( \binom{n}{2} = \frac{n(n-1)}{2} \) is the 
+total number of edges in the graph. However, the inner for loop only runs \( n \) times. Other
+functions inside the loops are \( O(1) \), including ones using a hash table based set. The 
+functions inside the inner for loop are \( O(\log n) \), leading to an overall time complexity of
+\( O(n^2 \log n) = O(n^2)\). The space complexity is dominated by the heap, which has at most
+\( \frac{n(n-1)}{2} \) edges in it, leading to a space complexity of \( O(n^2) \).
+
+\subsection{Discussion}
+
+\newpage
+\section{Triangle}
+\subsection{Code}
+\lstset{
+    caption=Triangle,
+}
+\begin{lstlisting}
+def minimumTotal(self, triangle):
+    """
+    :type triangle: List[List[int]]
+    :rtype: int
+    """
+    cost_triangle = [[triangle[0][0]]]
+    for row in triangle[1:]:
+        cost_triangle.append([])
+        for i in range(len(row)):
+            if i == 0:
+                a = cost_triangle[-1]
+                b = cost_triangle[-2][0]
+                c = row[0]
+                cost_triangle[-1].append(cost_triangle[-2][0] + row[0])
+            elif i == len(row) - 1:
+                cost_triangle[-1].append(cost_triangle[-2][-1] + row[-1])
+            else:
+                cost_triangle[-1].append(min(cost_triangle[-2][i-1], cost_triangle[-2][i]) + row[i])
+
+    return min(cost_triangle[-1])
+\end{lstlisting}
+
+\subsection{Time and Space Complexity}
+My implementation of Triangle uses a dynamic programming approach to find the minimum
+path sum of the triangle. A second 2D array is used to store the minimum path sums.
+The total number of elements in the array is \( \frac{n(n+1)}{2} \), where \( n \) is the 
+number of rows in the triangle. The code uses constant time operations on each element of the triangle,
+so the time complexity is \( O(n^2) \). The space complexity is also \( O(n^2) \) because of the
+cost triangle array.
+
+\subsection{Discussion}
+
+\newpage
+\section{Perfect Squares}
+\subsection{Code}
+\lstset{
+    caption=Perfect Squares,
+}
+\begin{lstlisting}
+import math
+
+def numSquares(self, n):
+    """
+    :type n: int
+    :rtype: int
+    """
+    squares = [i**2 for i in range(1, int(n**0.5) + 1)]
+    array = [100 for i in range(n+1)]
+    array[0] = 0
+
+    for i in range(len(array)):
+        for square in squares:
+            if square > i:
+                break
+            array[i] = min(array[i], array[i-square] + 1)
+
+    return array[-1]
+\end{lstlisting}
+
+\subsection{Time and Space Complexity}
+My implementation of Perfect Squares uses a dynamic programming approach to find the
+minimum number of perfect squares that sum to \( n \). The code initializes an array of size \( \sqrt n \)
+to store the possible squares in the range. An array of size \( n \) is used to store the minimum number of
+squares that sum to each number from 0 to \( n \), where the values are intialized as infinity (100, because
+LeetCode doesn't like \texttt{math.infinity}). Nested for loops run the code inside \( n \sqrt n \) times,
+where all inside operations run in constant time. The time complexity is therefore \( O(n \sqrt n) \).
+The space complexity scales with the size of the two arrays, leading to \( O(n + \sqrt n) = O(n) \).
+
+\subsection{Discussion}
+
+\newpage
+
+\section{Course Schedule}
+\subsection{Code}
+\lstset{
+    caption=Course Schedule,
+}
+\begin{lstlisting}
+def canFinish(self, numCourses, prerequisites):
+    """
+    :type numCourses: int
+    :type prerequisites: List[List[int]]
+    :rtype: bool
+    """
+    graph = make_graph(prerequisites, numCourses)
+    path = set()
+    visited = set()
+    for i in range(numCourses):
+        if dfs(graph, visited, path, i):
+            return False
+    return True
+
+def make_graph(self, prereqs, numCourses):
+    graph = {i:set() for i in range(numCourses)}
+    for prereq in prereqs:
+        graph[prereq[0]].add(prereq[1])
+    return graph
+
+
+def dfs(self, graph, visited, path, node):
+    if node in path:
+        return True
+    if node in visited:
+        return False
+
+    path.add(node)
+    for i in graph[node]:
+        if dfs(graph, visited, path, i):
+            return True
+    path.remove(node)
+    visited.add(node)
+    return False
+\end{lstlisting}
+
+\subsection{Time and Space Complexity}
+My implementation of Course Schedule uses a DFS algorithm to detect cycles in a directed graph.
+The graph is generated from the prerequisites list in \( O(E) \) time, where \( E \) is the size
+of the prerequisites list (edges in the graph). The DFS algorithm is run at most \( V \) times, where
+\( V \) is the number of courses (verticies in the graph). DFS goes to a recursive depth of at most
+\( V \) and visits each node at most once, so the time complexity is \( O(V + E) \). The space complexity
+is \( O(E) \) for the graph and \( O(V) \) for the visited and path sets, leading to a total space complexity
+of \( O(V + E) \).
+
+\subsection{Discussion}
+
+
+\end{document}

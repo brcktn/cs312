@@ -1,19 +1,10 @@
-import math
-
 class Solution(object):
     def numSquares(self, n):
         """
         :type n: int
         :rtype: int
         """
-        squares = []
-        i = 1
-        while True:
-            j = i**2
-            if j > n:
-                break
-            squares.append(j)
-            i += 1
+        squares = [i**2 for i in range(1, int(n**0.5) + 1)]
 
         array = [100 for i in range(n+1)]
         array[0] = 0
